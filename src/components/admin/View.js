@@ -11,7 +11,7 @@ const CategoriesView = () => {
   }, []);
 
   const loadCategories = async () => {
-    const result = await axios.get("http://localhost:8080/Admin/categories", {
+    const result = await axios.get("http://localhost:8080/Admin/categories/1", {
       validateStatus: () => {
         return true;
       },
@@ -34,7 +34,6 @@ const CategoriesView = () => {
             <th>ID</th>
             <th>Category Name</th>
             <th>Budget</th>
-            <th>UserId</th>
             <th>Type</th>
             <th colSpan="3">Actions</th>
           </tr>
@@ -48,8 +47,7 @@ const CategoriesView = () => {
               </th>
               <td>{category.name}</td>
               <td>{category.budget}</td>
-              <td>{category.user.id}</td>
-              <td>{category.type}</td>
+              <td>{category.type === 0 ? "System Defined" : "User Defined"}</td>
               <td className="mx-2">
                 <Link
                   to={`/category-profile/${category.id}`}

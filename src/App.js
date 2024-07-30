@@ -1,7 +1,7 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.min.js";
 import "./App.css";
-import NavBar from "./components/common/NavBar";
+import NavBar from "./components/admin/NavBar.js";
 import CategoriesView from "./components/admin/View.js";
 import Home from "./components/admin/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

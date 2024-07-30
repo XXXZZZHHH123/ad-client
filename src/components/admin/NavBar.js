@@ -6,7 +6,7 @@ const NavBar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/"}>
-          Navbar
+          Admin
         </Link>
         <button
           className="navbar-toggler"
@@ -23,16 +23,16 @@ const NavBar = () => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
-                className="nav-link active"
+                className="nav-link"
                 aria-current="page"
                 to={"/view-categories"}
               >
-                View all Categories
+                View Categories (System)
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to={"/add-category"}>
-                Add new Categories
+                Add Categories (System)
               </Link>
             </li>
           </ul>
