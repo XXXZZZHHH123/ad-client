@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CategoriesView = () => {
@@ -12,27 +12,28 @@ const CategoriesView = () => {
     const result = await axios.get("http://localhost:8080/Admin/categories", {
       validateStatus: () => {
         return true;
-      }
+      },
     });
     if (result.status === 200) {
       setCategories(result.data);
     }
-  }
+  };
 
   return (
     <section>
-      <table>
+      <table className="table table-bordered table-hover">
         <thead>
-          <tr>
+          <tr className="text-center">
             <th>ID</th>
             <th>Category Name</th>
             <th>Budget</th>
             <th>UserId</th>
             <th>Type</th>
-            <th>Actions</th>
+            <th colSpan="3">Actions</th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody className="text-center">
           {categories.map((category, index) => (
             <tr key={category.id}>
               <th scope="row" key={index}>
@@ -42,17 +43,21 @@ const CategoriesView = () => {
               <td>{category.budget}</td>
               <td>{category.user.id}</td>
               <td>{category.type}</td>
-              <td>
-                <button>View</button>
-                <button>Update</button>
-                <button>Delete</button>
+              <td className="mx-2">
+                <button className="btn btn-info">View</button>
+              </td>
+              <td className="mx-2">
+                <button className="btn btn-warning">Update</button>
+              </td>
+              <td className="mx-2">
+                <button className="btn btn-danger">Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </section>
-  )
-}
+  );
+};
 
 export default CategoriesView;
