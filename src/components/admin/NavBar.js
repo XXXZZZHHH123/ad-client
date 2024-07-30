@@ -21,14 +21,32 @@ const NavBar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+            <li className="nav-item dropdown">
               <Link
-                className="nav-link"
-                aria-current="page"
-                to={"/view-categories"}
+                className="nav-link dropdown-toggle"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
-                View Categories (System)
+                View Categories
               </Link>
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to={"/view-categories-system"}
+                  >
+                    Categories (System)
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to={"/view-categories-user"}>
+                    Categories (User)
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to={"/add-category"}>

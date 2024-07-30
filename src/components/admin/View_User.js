@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaTrashAlt, FaEye, FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const CategoriesView = () => {
+const View_User = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -11,13 +11,20 @@ const CategoriesView = () => {
   }, []);
 
   const loadCategories = async () => {
-    const result = await axios.get("http://localhost:8080/Admin/categories/1", {
-      validateStatus: () => {
-        return true;
-      },
-    });
-    if (result.status === 200) {
-      setCategories(result.data);
+    try {
+      const result = await axios.get(
+        "http://localhost:8080/Admin/categories/user",
+        {
+          validateStatus: () => true,
+        }
+      );
+      if (result.status === 200 && Array.isArray(result.data)) {
+        setCategories(result.data);
+      } else {
+        console.error("Failed to load categories or invalid format");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
     }
   };
 
@@ -50,7 +57,7 @@ const CategoriesView = () => {
               <td>{category.type === 0 ? "System Defined" : "User Defined"}</td>
               <td className="mx-2">
                 <Link
-                  to={`/category-profile/${category.id}`}
+                  to={`/category-transaction/${category.id}`}
                   className="btn btn-info"
                 >
                   <FaEye />
@@ -80,4 +87,4 @@ const CategoriesView = () => {
   );
 };
 
-export default CategoriesView;
+export default View_User;
