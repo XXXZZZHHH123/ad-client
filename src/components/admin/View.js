@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FaTrashAlt, FaEye, FaEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const CategoriesView = () => {
   const [categories, setCategories] = useState([]);
@@ -19,9 +21,14 @@ const CategoriesView = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:8080/Admin/delete/${id}`);
+    loadCategories();
+  };
+
   return (
     <section>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover shadow">
         <thead>
           <tr className="text-center">
             <th>ID</th>
@@ -44,13 +51,28 @@ const CategoriesView = () => {
               <td>{category.user.id}</td>
               <td>{category.type}</td>
               <td className="mx-2">
-                <button className="btn btn-info">View</button>
+                <Link
+                  to={`/category-profile/${category.id}`}
+                  className="btn btn-info"
+                >
+                  <FaEye />
+                </Link>
               </td>
               <td className="mx-2">
-                <button className="btn btn-warning">Update</button>
+                <Link
+                  to={`/edit-category/${category.id}`}
+                  className="btn btn-warning"
+                >
+                  <FaEdit />
+                </Link>
               </td>
               <td className="mx-2">
-                <button className="btn btn-danger">Delete</button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(category.id)}
+                >
+                  <FaTrashAlt />
+                </button>
               </td>
             </tr>
           ))}

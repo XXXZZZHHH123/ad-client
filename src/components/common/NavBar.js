@@ -31,7 +31,7 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/add-categories"}>
+              <Link className="nav-link" to={"/add-category"}>
                 Add new Categories
               </Link>
             </li>
