@@ -14,7 +14,7 @@ const View_Transactions = () => {
   const loadTransactions = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:8080/Admin/transaction/${id}`,
+        "http://localhost:8080/Admin/transactions",
         {
           validateStatus: () => true,
         }

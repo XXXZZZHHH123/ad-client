@@ -53,6 +53,11 @@ const NavBar = () => {
                 Add Categories (System)
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/transactions"}>
+                View All Transactions
+              </Link>
+            </li>
           </ul>
           <form className="d-flex" role="search">
             <input

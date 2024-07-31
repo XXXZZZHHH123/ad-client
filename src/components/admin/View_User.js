@@ -42,20 +42,23 @@ const View_User = () => {
             <th>Category Name</th>
             <th>Budget</th>
             <th>Type</th>
-            <th colSpan="3">Actions</th>
+            <th>Transactions</th>
+            <th colSpan="2">Actions</th>
           </tr>
         </thead>
 
         <tbody className="text-center">
           {categories.map((category, index) => (
             <tr key={category.id}>
-              <th scope="row" key={index}>
+              <th scope="row" key={index} style={{ verticalAlign: "middle" }}>
                 {index + 1}
               </th>
-              <td>{category.name}</td>
-              <td>{category.budget}</td>
-              <td>{category.type === 0 ? "System Defined" : "User Defined"}</td>
-              <td className="mx-2">
+              <td style={{ verticalAlign: "middle" }}>{category.name}</td>
+              <td style={{ verticalAlign: "middle" }}>{category.budget}</td>
+              <td style={{ verticalAlign: "middle" }}>
+                {category.type === 0 ? "System Defined" : "User Defined"}
+              </td>
+              <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
                   to={`/category-transaction/${category.id}`}
                   className="btn btn-info"
@@ -63,7 +66,7 @@ const View_User = () => {
                   <FaEye />
                 </Link>
               </td>
-              <td className="mx-2">
+              <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
                   to={`/edit-category/${category.id}`}
                   className="btn btn-warning"
@@ -71,7 +74,7 @@ const View_User = () => {
                   <FaEdit />
                 </Link>
               </td>
-              <td className="mx-2">
+              <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <button
                   className="btn btn-danger"
                   onClick={() => handleDelete(category.id)}

@@ -35,24 +35,53 @@ const Transaction_Detail = () => {
   return (
     <div>
       <h2>Transaction Details</h2>
-      <p>
-        <strong>ID:</strong> {transaction.id}
-      </p>
-      <p>
-        <strong>Amount:</strong> {transaction.amount}
-      </p>
-      <p>
-        <strong>Category:</strong> {transaction.category.name}
-      </p>
-      <p>
-        <strong>Description:</strong> {transaction.description}
-      </p>
-      <p>
-        <strong>Created At:</strong> {transaction.created_at}
-      </p>
-      <p>
-        <strong>Updated At:</strong> {transaction.updated_at}
-      </p>
+      <p> </p>
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th style={{ width: "30%" }}>Field</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>ID</strong>
+            </td>
+            <td>{transaction.id}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Category</strong>
+            </td>
+            <td>{transaction.category.name}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Amount</strong>
+            </td>
+            <td>{transaction.amount}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Created At</strong>
+            </td>
+            <td>{transaction.created_at}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Updated At</strong>
+            </td>
+            <td>{transaction.updated_at ? transaction.updated_at : "/"}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Description</strong>
+            </td>
+            <td>{transaction.description}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };

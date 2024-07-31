@@ -10,6 +10,7 @@ import Add from "./components/admin/Add";
 import Edit from "./components/admin/Edit.js";
 import View_Transactions from "./components/admin/View_Transactions.js";
 import Transaction_Detail from "./components/admin/Transaction_Detail.js";
+import View_All_Transactions from "./components/admin/View_All_Transactions.js";
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
             exact
             path="/category-transaction/:id"
             element={<View_Transactions />}
+          />
+          <Route
+            exact
+            path="/transactions"
+            element={<View_All_Transactions />}
           />
         </Routes>
       </Router>
