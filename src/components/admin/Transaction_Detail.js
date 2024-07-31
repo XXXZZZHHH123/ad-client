@@ -34,7 +34,7 @@ const Transaction_Detail = () => {
 
   return (
     <div>
-      <h2>Transaction Details</h2>
+      <h3>Transaction Details</h3>
       <p> </p>
       <table className="table table-bordered">
         <thead>
@@ -49,6 +49,12 @@ const Transaction_Detail = () => {
               <strong>ID</strong>
             </td>
             <td>{transaction.id}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>User Name</strong>
+            </td>
+            <td>{transaction.user.username}</td>
           </tr>
           <tr>
             <td>
@@ -78,7 +84,7 @@ const Transaction_Detail = () => {
             <td>
               <strong>Description</strong>
             </td>
-            <td>{transaction.description}</td>
+            <td>{transaction.description ? transaction.description : "/"}</td>
           </tr>
         </tbody>
       </table>

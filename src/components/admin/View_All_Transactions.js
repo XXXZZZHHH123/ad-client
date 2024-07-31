@@ -35,10 +35,11 @@ const View_Transactions = () => {
         <thead>
           <tr className="text-center">
             <th>ID</th>
+            <th>User</th>
+            <th>Category</th>
             <th>Amount</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th>Category</th>
             <th>Description</th>
           </tr>
         </thead>
@@ -49,6 +50,12 @@ const View_Transactions = () => {
               <th scope="row" key={index} style={{ verticalAlign: "middle" }}>
                 {index + 1}
               </th>
+              <td style={{ verticalAlign: "middle" }}>
+                {transaction.user.username}
+              </td>
+              <td style={{ verticalAlign: "middle" }}>
+                {transaction.category.name}
+              </td>
               <td style={{ verticalAlign: "middle" }}>{transaction.amount}</td>
               <td style={{ verticalAlign: "middle" }}>
                 {transaction.created_at}
@@ -56,9 +63,7 @@ const View_Transactions = () => {
               <td style={{ verticalAlign: "middle" }}>
                 {transaction.updated_at ? transaction.updated_at : "/"}
               </td>
-              <td style={{ verticalAlign: "middle" }}>
-                {transaction.category.name}
-              </td>
+
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
                   to={`/transaction-description/${transaction.id}`}
