@@ -19,9 +19,9 @@ const Login = () => {
       if (response.status === 200) {
         const user = response.data;
         if (user.role === 0) {
-          navigate("/"); // Admin用户跳转到AdminHome页面
+          navigate("/admin"); // Admin用户跳转到AdminHome页面
         } else {
-          navigate("/add-category"); // user你自己加
+          navigate("/user"); // user你自己加
         }
       } else {
         setError("Invalid credentials");

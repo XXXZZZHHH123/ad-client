@@ -1,74 +1,70 @@
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.min.js";
-import "./App.css";
-import NavBar from "./components/admin/NavBar.js";
-import SystemCategoriesView from "./components/admin/View_System.js";
-import UserCategoriesView from "./components/admin/View_User.js";
-import Home from "./components/admin/Home";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import Add from "./components/admin/Add";
-import Edit from "./components/admin/Edit.js";
-import View_Transactions from "./components/admin/View_Transactions.js";
-import Transaction_Detail from "./components/admin/Transaction_Detail.js";
-import View_All_Transactions from "./components/admin/View_All_Transactions.js";
-import Login from "./components/common/Login.js";
-import PrivacyPolicy from "./components/common/Policy.js";
-import Register from "./components/common/Register";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import Home from './components/admin/Home';
+import BudgetSet from './components/user/BudgetSet';
+import NavBar from './components/user/NavBar';
+import AdminNavBar from './components/admin/NavBar';
+import SystemCategoriesView from './components/admin/View_System';
+import UserCategoriesView from './components/admin/View_User';
+import Add from './components/admin/Add';
+import Edit from './components/admin/Edit';
+import View_Transactions from './components/admin/View_Transactions';
+import Transaction_Detail from './components/admin/Transaction_Detail';
+import View_All_Transactions from './components/admin/View_All_Transactions';
+import Login from './components/common/Login';
+import PrivacyPolicy from './components/common/Policy';
+import Register from './components/common/Register';
+import Dashboard from './components/user/Dashboard';
 
-function AppContent() {
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import './App.css';
+
+
+const AppContent = () => {
   const location = useLocation();
-  const hideNavBar =
-    location.pathname === "/login" ||
-    location.pathname === "/privacy-policy" ||
-    location.pathname === "/register";
+  const hideNavBarPaths = ['/login', '/privacy-policy', '/register'];
+
+  const hideNavBar = hideNavBarPaths.includes(location.pathname);
 
   return (
     <main className="container mt-5">
-      {!hideNavBar && <NavBar />}
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route
-          exact
-          path="/view-categories-system"
-          element={<SystemCategoriesView />}
-        />
-        <Route
-          exact
-          path="/view-categories-user"
-          element={<UserCategoriesView />}
-        />
-        <Route exact path="/add-category" element={<Add />} />
-        <Route exact path="/edit-category/:id" element={<Edit />} />
-        <Route
-          exact
-          path="/transaction-description/:id"
-          element={<Transaction_Detail />}
-        />
-        <Route
-          exact
-          path="/category-transaction/:id"
-          element={<View_Transactions />}
-        />
-        <Route exact path="/transactions" element={<View_All_Transactions />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
-      </Routes>
-    </main>
-  );
-}
+      {!hideNavBar && location.pathname.startsWith('/admin') && <AdminNavBar />}
+      {!hideNavBar && location.pathname.startsWith('/user') && <NavBar />}
+        <div className="site-layout-content" style={{ margin: '16px 0' }}>
+          <Routes>
+            {/* Common Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/register" element={<Register />} />
 
-function App() {
+            {/* Admin Routes */}
+            <Route path="/admin/register" element={<Register />} />
+            <Route path="/admin/view-categories-system" element={<SystemCategoriesView />} />
+            <Route path="/admin/view-categories-user" element={<UserCategoriesView />} />
+            <Route path="/admin/add-category" element={<Add />} />
+            <Route path="/admin/edit-category/:id" element={<Edit />} />
+            <Route path="/admin/transaction-description/:id" element={<Transaction_Detail />} />
+            <Route path="/admin/category-transaction/:id" element={<View_Transactions />} />
+            <Route path="/admin/transactions" element={<View_All_Transactions />} />
+            <Route path="/admin" element={<Home />} />
+
+            {/* User Routes */}
+            <Route path="/user/dashboard" element={<Dashboard />} />
+            <Route path="/user/budgetset" element={<BudgetSet />} />
+            <Route path="/user/logout" element={<div>Logout</div>} />
+          </Routes>
+        </div>
+      </main>
+  );
+};
+
+const App = () => {
   return (
     <Router>
       <AppContent />
     </Router>
   );
-}
+};
 
 export default App;
