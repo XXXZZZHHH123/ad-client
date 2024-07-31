@@ -60,7 +60,7 @@ const CategoriesView = () => {
               </td>
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
-                  to={`/category-transaction/${category.id}`}
+                  to={`/admin/category-transaction/${category.id}`}
                   className="btn btn-info"
                 >
                   <FaEye />

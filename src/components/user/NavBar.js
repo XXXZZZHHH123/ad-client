@@ -1,37 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
-import {
-  HomeOutlined,
-  DollarOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
 
 const NavBar = () => {
   return (
-    <>
-      <div
-        className="logo"
-        style={{
-          float: "left",
-          width: "120px",
-          height: "31px",
-          margin: "16px 24px 16px 0",
-          background: "rgba(255, 255, 255, 0.2)",
-        }}
-      />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-        <Menu.Item key="1" icon={<HomeOutlined />}>
-          <Link to="/dashboard">Dashboard</Link>
-        </Menu.Item>
-        <Menu.Item key="2" icon={<DollarOutlined />}>
-          <Link to="/budgetset">BudgetSet</Link>
-        </Menu.Item>
-        <Menu.Item key="3" icon={<LogoutOutlined />}>
-          <Link to="/logout">Logout</Link>
-        </Menu.Item>
-      </Menu>
-    </>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to={"/"}>
+          SmartBook
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link" to={"/user/dashboard"}>
+                Dashboard
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/user/budgetset"}>
+                BudgetSet
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/user/logout"}>
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 };
 

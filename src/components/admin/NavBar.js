@@ -36,25 +36,25 @@ const NavBar = () => {
                 <li>
                   <Link
                     className="dropdown-item"
-                    to={"/view-categories-system"}
+                    to={"/admin/view-categories-system"}
                   >
                     Categories (System)
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to={"/view-categories-user"}>
+                  <Link className="dropdown-item" to={"/admin/view-categories-user"}>
                     Categories (User)
                   </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/add-category"}>
+              <Link className="nav-link" to={"/admin/add-category"}>
                 Add Categories (System)
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/transactions"}>
+              <Link className="nav-link" to={"/admin/transactions"}>
                 View All Transactions
               </Link>
             </li>

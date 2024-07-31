@@ -1,85 +1,178 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input } from "antd";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Modal, Form, Input, message } from 'antd';
+import axios from 'axios';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 const BudgetSet = () => {
-  const [categories, setCategories] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [form] = Form.useForm();
-  const userId = 1; // 假设你已经获取了当前用户的ID
+    const [categories, setCategories] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [form] = Form.useForm();
+    const [currentCategory, setCurrentCategory] = useState(null);
+    const userId = 1; // 假设你已经获取了当前用户的ID
 
-  useEffect(() => {
-    // Fetch categories from the server
-    fetch("/User/budgets") // 替换为实际的 API 端点
-      .then((response) => response.json())
-      .then((data) => setCategories(data))
-      .catch((error) => console.error("Error fetching categories:", error));
-  }, []);
+    useEffect(() => {
+        loadCategories();
+    }, []);
 
-  const handleSubmit = async (values) => {
-    try {
-      const response = await axios.post(`/User/add/${userId}`, {
-        name: values.category,
-        budget: values.amount,
-        type: 1, // 或者根据你的需求设置适当的类型
-      });
-      console.log("Category created:", response.data);
-      // 更新categories状态以反映新添加的类别
-      setCategories((prevCategories) => [...prevCategories, response.data]);
-      setModalOpen(false);
-      form.resetFields();
-    } catch (error) {
-      console.error("Error creating category:", error);
-    }
-  };
+    const loadCategories = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/User/budgets/${userId}`);
+            setCategories(response.data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
 
-  const columns = [
-    {
-      title: "Category",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Amount",
-      dataIndex: "budget",
-      key: "budget",
-    },
-  ];
+    const handleSubmit = async (values) => {
+        try {
+            let response;
+            if (currentCategory) {
+                response = await axios.put(`http://localhost:8080/User/update/${currentCategory.id}`, {
+                    budget: values.amount
+                });
+                message.success('Category updated successfully');
+                setCategories(prevCategories =>
+                    prevCategories.map(cat => (cat.id === currentCategory.id ? response.data : cat))
+                );
+            } else {
+                response = await axios.post(`http://localhost:8080/User/add/${userId}`, {
+                    name: values.category,
+                    budget: values.amount,
+                    type: 1
+                });
+                message.success('Category created successfully');
+                setCategories(prevCategories => [...prevCategories, response.data]);
+            }
+            setModalOpen(false);
+            form.resetFields();
+            setCurrentCategory(null);
+        } catch (error) {
+            console.error('Error creating/updating category:', error);
+            message.error('Category with the same name already exists');
+        }
+    };
 
-  return (
-    <div className="content">
-      <h2>Budget Planner</h2>
-      <Button type="primary" onClick={() => setModalOpen(true)}>
-        Add Budget
-      </Button>
-      <Table dataSource={categories} columns={columns} rowKey="name" />
+    const handleEdit = (category) => {
+        setCurrentCategory(category);
+        form.setFieldsValue({
+            amount: category.budget
+        });
+        setModalOpen(true);
+    };
 
-      <Modal
-        title="Add Budget"
-        open={modalOpen}
-        onCancel={() => setModalOpen(false)}
-        onOk={() => form.submit()}
-        okText="Save"
-      >
-        <Form layout="vertical" form={form} onFinish={handleSubmit}>
-          <Form.Item
-            label="Enter Budget Category"
-            name="category"
-            rules={[{ required: true, message: "Please enter a category!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Set Budget Amount"
-            name="amount"
-            rules={[{ required: true, message: "Please enter the amount!" }]}
-          >
-            <Input type="number" />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
-  );
+    const handleDelete = async (id) => {
+        const category = categories.find(cat => cat.id === id);
+        if (category && category.type === 0) {
+            message.error('Cannot delete system-defined category');
+            return;
+        }
+        try {
+            await axios.delete(`http://localhost:8080/User/delete/${id}`);
+            message.success('Category deleted successfully');
+            loadCategories();
+        } catch (error) {
+            console.error('Error deleting category:', error);
+            message.error('Error deleting category');
+        }
+    };
+
+    const columns = [
+        {
+            title: 'Category',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Amount(SGD)',
+            dataIndex: 'budget',
+            key: 'budget',
+        },
+        {
+            title: 'Actions',
+            key: 'actions',
+            render: (text, record) => (
+                <span>
+                    <Button
+                        type="primary"
+                        icon={<FaEdit />}
+                        onClick={() => handleEdit(record)}
+                        style={{ marginRight: 8 }}
+                    />
+                    <Button
+                        type="danger"
+                        icon={<FaTrashAlt />}
+                        onClick={() => handleDelete(record.id)}
+                    />
+                </span>
+            )
+        }
+    ];
+
+    const COLORS = [
+        '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#8dd1e1', '#83a6ed', '#8e4585', '#82ca9d',
+        '#ffc658', '#ff7300', '#d0ed57', '#a4de6c', '#4caf50', '#f44336', '#2196f3', '#9c27b0', '#3f51b5',
+        '#00bcd4', '#009688', '#4caf50', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548',
+        '#9e9e9e', '#607d8b', '#bdbdbd', '#78909c', '#ffccbc', '#ffab91', '#d32f2f', '#c2185b', '#7b1fa2',
+        '#512da8', '#303f9f', '#0288d1', '#0097a7', '#00796b', '#388e3c', '#689f38', '#afb42b', '#fbc02d'
+    ];
+
+    const getCategoryColor = (index) => COLORS[index % COLORS.length];
+
+    return (
+        <div className="content">
+            <h2>Budget Planner(Monthly)</h2>
+            <Button type="primary" onClick={() => { setModalOpen(true); setCurrentCategory(null); }}>Add Budget</Button>
+            <Table dataSource={categories} columns={columns} rowKey="id" />
+            
+            <Modal
+                title={currentCategory ? "Edit Budget" : "Add Budget"}
+                open={modalOpen}
+                onCancel={() => { setModalOpen(false); setCurrentCategory(null); form.resetFields(); }}
+                onOk={() => form.submit()}
+                okText="Save"
+            >
+                <Form layout="vertical" form={form} onFinish={handleSubmit}>
+                    {!currentCategory && (
+                        <Form.Item
+                            label="Enter Budget Category"
+                            name="category"
+                            rules={[{ required: true, message: 'Please enter a category!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                    )}
+                    <Form.Item
+                        label="Set Budget Amount"
+                        name="amount"
+                        rules={[{ required: true, message: 'Please enter the amount!' }]}
+                    >
+                        <Input type="number" />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* 饼图展示 */}
+            <PieChart width={400} height={400}>
+                <Pie
+                    data={categories}
+                    dataKey="budget"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={150}
+                    fill="#8884d8"
+                    label
+                >
+                    {categories.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
+                    ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+            </PieChart>
+        </div>
+    );
 };
 
 export default BudgetSet;
