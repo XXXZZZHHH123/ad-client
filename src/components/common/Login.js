@@ -18,10 +18,11 @@ const Login = () => {
       });
       if (response.status === 200) {
         const user = response.data;
+        sessionStorage.setItem("user", JSON.stringify(user));
         if (user.role === 0) {
-          navigate("/"); // Admin用户跳转到AdminHome页面
+          navigate("/");
         } else {
-          navigate("/add-category"); // user你自己加
+          navigate("/add-category");
         }
       } else {
         setError("Invalid credentials");
