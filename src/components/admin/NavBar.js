@@ -42,7 +42,10 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to={"/admin/view-categories-user"}>
+                  <Link
+                    className="dropdown-item"
+                    to={"/admin/view-categories-user"}
+                  >
                     Categories (User)
                   </Link>
                 </li>
