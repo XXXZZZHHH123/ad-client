@@ -5,7 +5,7 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={"/"}>
+        <Link className="navbar-brand" to={"/admin"}>
           Admin
         </Link>
         <button
@@ -36,6 +36,14 @@ const NavBar = () => {
                 <li>
                   <Link
                     className="dropdown-item"
+                    to={"/admin/view-categories_all"}
+                  >
+                    Categories (All)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item"
                     to={"/admin/view-categories-system"}
                   >
                     Categories (System)
@@ -59,6 +67,11 @@ const NavBar = () => {
             <li className="nav-item">
               <Link className="nav-link" to={"/admin/transactions"}>
                 View All Transactions
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/admin/view_user_account"}>
+                View All Users
               </Link>
             </li>
           </ul>

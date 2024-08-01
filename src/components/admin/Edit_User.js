@@ -2,46 +2,42 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const Edit = () => {
+const Edit_User = () => {
   let navigate = useNavigate();
   const { id } = useParams();
-  const [category, setCategory] = useState({
-    name: "",
-    budget: "",
-    type: "",
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    email: "",
   });
 
   useEffect(() => {
-    loadCategories();
+    loadUser();
   }, []);
 
-  const loadCategories = async () => {
-    const result = await axios.get(
-      `http://localhost:8080/Admin/category/${id}`
-    );
-    setCategory(result.data);
+  const loadUser = async () => {
+    const result = await axios.get(`http://localhost:8080/Admin/user/${id}`);
+    setUser(result.data);
   };
-
-  const { name, budget, type } = category;
 
   const handleInputChange = (e) => {
-    setCategory({ ...category, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const updateCategory = async (e) => {
+  const updateUser = async (e) => {
     e.preventDefault();
-    const { name, budget, type } = category; // 只提取必要字段
+    const { username, password, email } = user;
     try {
       const response = await axios.put(
-        `http://localhost:8080/Admin/update/${id}`,
-        JSON.stringify({ name, budget: parseFloat(budget), type }),
+        `http://localhost:8080/Admin/updateUser/${id}`,
+        { username, password, email },
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      navigate("/admin/view-categories_all");
+      navigate("/admin/view_user_account");
     } catch (error) {
       if (error.response && error.response.data) {
         console.error("Error:", error.response.data.message);
@@ -54,54 +50,51 @@ const Edit = () => {
 
   return (
     <div className="col-sm-8 py-2 px-5">
-      <h2 className="mt-5">Edit Category</h2>
-      <form onSubmit={(e) => updateCategory(e)}>
+      <h2 className="mt-5">Edit User</h2>
+      <form onSubmit={(e) => updateUser(e)}>
         <div className="input-group mb-5">
-          <label className="input-group-text" htmlFor="name">
-            Name
+          <label className="input-group-text" htmlFor="username">
+            Username
           </label>
           <input
             className="form-control col-sm-6"
             type="text"
-            name="name"
-            id="name"
+            name="username"
+            id="username"
             required
-            value={name}
+            value={user.username}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
 
         <div className="input-group mb-5">
-          <label className="input-group-text" htmlFor="budget">
-            Budget
+          <label className="input-group-text" htmlFor="password">
+            Password
           </label>
           <input
             className="form-control col-sm-6"
-            type="number"
-            name="budget"
-            id="budget"
+            type="password"
+            name="password"
+            id="password"
             required
-            value={budget}
+            value={user.password}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
 
         <div className="input-group mb-5">
-          <label className="input-group-text" htmlFor="type">
-            Category Type
+          <label className="input-group-text" htmlFor="email">
+            Email
           </label>
-          <select
+          <input
             className="form-control col-sm-6"
-            name="type"
-            id="type"
+            type="email"
+            name="email"
+            id="email"
             required
-            value={type}
+            value={user.email}
             onChange={(e) => handleInputChange(e)}
-          >
-            <option value="">Select Type</option>
-            <option value="0">System Defined</option>
-            <option value="1">User Defined</option>
-          </select>
+          />
         </div>
 
         <div className="row mb-5">
@@ -113,7 +106,7 @@ const Edit = () => {
 
           <div className="col-sm-2">
             <Link
-              to={"/admin/view-categories"}
+              to={"/admin/view_user_account"}
               className="btn btn-outline-warning btn-lg"
             >
               Cancel
@@ -125,4 +118,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default Edit_User;

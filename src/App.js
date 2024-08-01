@@ -1,9 +1,13 @@
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "./App.css";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import Home from "./components/admin/Home";
 import BudgetSet from "./components/user/BudgetSet";
@@ -44,7 +48,7 @@ const AppContent = () => {
           <Route path="/register" element={<Register />} />
 
           {/* Admin Routes */}
-          <Route path="/admin/register" element={<Register />} />
+          <Route path="/admin/view-categories_all" element={<View_All />} />
           <Route
             path="/admin/view-categories-system"
             element={<SystemCategoriesView />}
@@ -68,12 +72,21 @@ const AppContent = () => {
             element={<View_All_Transactions />}
           />
           <Route path="/admin" element={<Home />} />
+          <Route path="/admin/view_user_account" element={<View_accounts />} />
+          <Route path="/admin/edit-user/:id" element={<Edit_User />} />
+          <Route
+            path="/admin/user-transaction/:id"
+            element={<User_Transaction />}
+          />
 
           {/* User Routes */}
           <Route path="/user/dashboard" element={<Dashboard />} />
           <Route path="/user/budgetset" element={<BudgetSet />} />
           <Route path="/user/transaction" element={<Transaction />} />
           <Route path="/user/logout" element={<div>Logout</div>} />
+
+          {/* Default Route */}
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </main>
