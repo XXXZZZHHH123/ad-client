@@ -69,6 +69,11 @@ const NavBar = () => {
                 View All Transactions
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/admin/view_user_account"}>
+                View All Users
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

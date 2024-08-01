@@ -1,4 +1,7 @@
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "./App.css";
 import {
   BrowserRouter as Router,
   Route,
@@ -22,10 +25,9 @@ import PrivacyPolicy from "./components/common/Policy";
 import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
 import View_All from "./components/admin/View_All";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
-import "./App.css";
+import View_accounts from "./components/admin/View_accounts";
+import User_Transaction from "./components/admin/User_Transaction";
+import Edit_User from "./components/admin/Edit_User";
 
 const AppContent = () => {
   const location = useLocation();
@@ -45,7 +47,6 @@ const AppContent = () => {
           <Route path="/register" element={<Register />} />
 
           {/* Admin Routes */}
-          <Route path="/admin/register" element={<Register />} />
           <Route path="/admin/view-categories_all" element={<View_All />} />
           <Route
             path="/admin/view-categories-system"
@@ -70,6 +71,12 @@ const AppContent = () => {
             element={<View_All_Transactions />}
           />
           <Route path="/admin" element={<Home />} />
+          <Route path="/admin/view_user_account" element={<View_accounts />} />
+          <Route path="/admin/edit-user/:id" element={<Edit_User />} />
+          <Route
+            path="/admin/user-transaction/:id"
+            element={<User_Transaction />}
+          />
 
           {/* User Routes */}
           <Route path="/user/dashboard" element={<Dashboard />} />
