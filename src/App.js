@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import Home from "./components/admin/Home";
 import BudgetSet from "./components/user/BudgetSet";
@@ -20,6 +21,7 @@ import Login from "./components/common/Login";
 import PrivacyPolicy from "./components/common/Policy";
 import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
+import View_All from "./components/admin/View_All";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -44,6 +46,7 @@ const AppContent = () => {
 
           {/* Admin Routes */}
           <Route path="/admin/register" element={<Register />} />
+          <Route path="/admin/view-categories_all" element={<View_All />} />
           <Route
             path="/admin/view-categories-system"
             element={<SystemCategoriesView />}
@@ -72,6 +75,9 @@ const AppContent = () => {
           <Route path="/user/dashboard" element={<Dashboard />} />
           <Route path="/user/budgetset" element={<BudgetSet />} />
           <Route path="/user/logout" element={<div>Logout</div>} />
+
+          {/* Default Route */}
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </main>

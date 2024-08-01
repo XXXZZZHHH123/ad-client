@@ -13,7 +13,7 @@ const View_User = () => {
   const loadCategories = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:8080/Admin/categories/user",
+        "http://localhost:8080/Admin/categories/1",
         {
           validateStatus: () => true,
         }
@@ -42,6 +42,7 @@ const View_User = () => {
             <th>Category Name</th>
             <th>Budget</th>
             <th>Type</th>
+            <th>Defined by</th>
             <th>Transactions</th>
             <th colSpan="2">Actions</th>
           </tr>
@@ -57,6 +58,9 @@ const View_User = () => {
               <td style={{ verticalAlign: "middle" }}>{category.budget}</td>
               <td style={{ verticalAlign: "middle" }}>
                 {category.type === 0 ? "System Defined" : "User Defined"}
+              </td>
+              <td style={{ verticalAlign: "middle" }}>
+                {category.user.username}
               </td>
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link

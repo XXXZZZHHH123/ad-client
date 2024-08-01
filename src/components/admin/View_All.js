@@ -12,12 +12,9 @@ const CategoriesView = () => {
 
   const loadCategories = async () => {
     try {
-      const result = await axios.get(
-        "http://localhost:8080/Admin/categories/0",
-        {
-          validateStatus: () => true,
-        }
-      );
+      const result = await axios.get("http://localhost:8080/Admin/categories", {
+        validateStatus: () => true,
+      });
       if (result.status === 200 && Array.isArray(result.data)) {
         setCategories(result.data);
       } else {
