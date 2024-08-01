@@ -20,6 +20,7 @@ import Login from "./components/common/Login";
 import PrivacyPolicy from "./components/common/Policy";
 import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
+import Transaction from "./components/user/Transaction";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -71,6 +72,7 @@ const AppContent = () => {
           {/* User Routes */}
           <Route path="/user/dashboard" element={<Dashboard />} />
           <Route path="/user/budgetset" element={<BudgetSet />} />
+          <Route path="/user/transaction" element={<Transaction />} />
           <Route path="/user/logout" element={<div>Logout</div>} />
         </Routes>
       </div>
