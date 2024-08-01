@@ -6,9 +6,9 @@ const Edit = () => {
   let navigate = useNavigate();
   const { id } = useParams();
   const [category, setCategory] = useState({
-    categoryName: "",
+    name: "",
     budget: "",
-    categoryType: "",
+    type: "",
   });
 
   useEffect(() => {
@@ -22,15 +22,34 @@ const Edit = () => {
     setCategory(result.data);
   };
 
-  const { name, budget, categoryType } = category;
+  const { name, budget, type } = category;
 
   const handleInputChange = (e) => {
     setCategory({ ...category, [e.target.name]: e.target.value });
   };
+
   const updateCategory = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/Admin/update/${id}`, category);
-    navigate("/view-categories");
+    const { name, budget, type } = category; // 只提取必要字段
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/Admin/update/${id}`,
+        JSON.stringify({ name, budget: parseFloat(budget), type }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      navigate("/admin/view-categories-system");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        console.error("Error:", error.response.data.message);
+        alert(`Error: ${error.response.data.message}`);
+      } else {
+        console.error("Request failed with status code", error.message);
+      }
+    }
   };
 
   return (
@@ -68,15 +87,15 @@ const Edit = () => {
         </div>
 
         <div className="input-group mb-5">
-          <label className="input-group-text" htmlFor="categoryType">
+          <label className="input-group-text" htmlFor="type">
             Category Type
           </label>
           <select
             className="form-control col-sm-6"
-            name="categoryType"
-            id="categoryType"
+            name="type"
+            id="type"
             required
-            value={categoryType}
+            value={type}
             onChange={(e) => handleInputChange(e)}
           >
             <option value="">Select Type</option>
@@ -94,8 +113,7 @@ const Edit = () => {
 
           <div className="col-sm-2">
             <Link
-              to={"/view-categories"}
-              type="submit"
+              to={"/admin/view-categories"}
               className="btn btn-outline-warning btn-lg"
             >
               Cancel

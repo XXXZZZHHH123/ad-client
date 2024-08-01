@@ -18,6 +18,7 @@ const Login = () => {
       });
       if (response.status === 200) {
         const user = response.data;
+        sessionStorage.setItem("user", JSON.stringify(user));
         if (user.role === 0) {
           navigate("/admin"); // Admin用户跳转到AdminHome页面
         } else {

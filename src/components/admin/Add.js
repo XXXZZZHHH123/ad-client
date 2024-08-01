@@ -17,7 +17,7 @@ const Add = () => {
   const saveCategory = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:8080/Admin/add/1", category);
-    navigate("/view-categories");
+    navigate("/admin/view-categories-system");
   };
 
   return (
