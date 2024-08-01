@@ -17,7 +17,7 @@ const BudgetSet = () => {
 
     const loadCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/User/budgets/${userId}`);
+            const response = await axios.get(`http://localhost:8080/User/budget/${userId}`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -28,7 +28,7 @@ const BudgetSet = () => {
         try {
             let response;
             if (currentCategory) {
-                response = await axios.put(`http://localhost:8080/User/update/${currentCategory.id}`, {
+                response = await axios.put(`http://localhost:8080/User/budget/update/${currentCategory.id}`, {
                     budget: values.amount
                 });
                 message.success('Category updated successfully');
@@ -36,7 +36,7 @@ const BudgetSet = () => {
                     prevCategories.map(cat => (cat.id === currentCategory.id ? response.data : cat))
                 );
             } else {
-                response = await axios.post(`http://localhost:8080/User/add/${userId}`, {
+                response = await axios.post(`http://localhost:8080/User/budget/add/${userId}`, {
                     name: values.category,
                     budget: values.amount,
                     type: 1
@@ -68,7 +68,7 @@ const BudgetSet = () => {
             return;
         }
         try {
-            await axios.delete(`http://localhost:8080/User/delete/${id}`);
+            await axios.delete(`http://localhost:8080/User/budget/delete/${id}`);
             message.success('Category deleted successfully');
             loadCategories();
         } catch (error) {
