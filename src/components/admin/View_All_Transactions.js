@@ -66,7 +66,7 @@ const View_Transactions = () => {
 
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
-                  to={`/transaction-description/${transaction.id}`}
+                  to={`/admin/transaction-description/${transaction.id}`}
                   className="btn btn-info"
                 >
                   <FaEye />
