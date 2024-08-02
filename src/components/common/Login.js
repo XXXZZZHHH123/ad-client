@@ -20,9 +20,9 @@ const Login = () => {
         const user = response.data;
         sessionStorage.setItem("user", JSON.stringify(user));
         if (user.role === 0) {
-          navigate("/admin"); // Admin用户跳转到AdminHome页面
+          navigate("/admin");
         } else {
-          navigate("/user"); // user你自己加
+          navigate("/user");
         }
       } else {
         setError("Invalid credentials");

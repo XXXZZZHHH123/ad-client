@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/login");
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
       <div className="container-fluid">
@@ -73,6 +78,11 @@ const NavBar = () => {
               <Link className="nav-link" to={"/admin/view_user_account"}>
                 View All Users
               </Link>
+            </li>
+            <li className="nav-item">
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
             </li>
           </ul>
         </div>
