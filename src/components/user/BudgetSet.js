@@ -73,7 +73,7 @@ const BudgetSet = () => {
             loadCategories();
         } catch (error) {
             console.error('Error deleting category:', error);
-            message.error('Error deleting category');
+            message.error('This category is already used');
         }
     };
 
