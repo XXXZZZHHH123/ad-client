@@ -7,8 +7,9 @@ const NavBar = () => {
   const handleLogout = () => {
     navigate("/login");
   };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/admin"}>
           Admin
@@ -25,7 +26,7 @@ const NavBar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100">
             <li className="nav-item dropdown">
               <Link
                 className="nav-link dropdown-toggle"
@@ -79,7 +80,7 @@ const NavBar = () => {
                 View All Users
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item ms-auto">
               <button className="btn btn-danger" onClick={handleLogout}>
                 Logout
               </button>

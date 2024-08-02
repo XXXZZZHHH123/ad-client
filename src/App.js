@@ -30,10 +30,6 @@ import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
 import Transaction from "./components/user/Transaction";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
-import "./App.css";
-
 const AppContent = () => {
   const location = useLocation();
   const hideNavBarPaths = ["/login", "/privacy-policy", "/register"];
@@ -41,7 +37,7 @@ const AppContent = () => {
   const hideNavBar = hideNavBarPaths.includes(location.pathname);
 
   return (
-    <main className="container mt-5">
+    <main className="container-fluid mt-5">
       {!hideNavBar && location.pathname.startsWith("/admin") && <AdminNavBar />}
       {!hideNavBar && location.pathname.startsWith("/user") && <NavBar />}
       <div className="site-layout-content" style={{ margin: "16px 0" }}>
