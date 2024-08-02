@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Form, Input, message, Select } from 'antd';
+import { Table, Button, Modal, Form, Input, message, Select, DatePicker } from 'antd';
 import axios from 'axios';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import moment from 'moment'; // 引入 moment 库
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const Transaction = () => {
     const [transactions, setTransactions] = useState([]);
@@ -12,6 +13,8 @@ const Transaction = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [form] = Form.useForm();
     const [currentTransaction, setCurrentTransaction] = useState(null);
+    const [filteredTransactions, setFilteredTransactions] = useState([]);
+    const [activeFilter, setActiveFilter] = useState(''); // 用于存储当前激活的筛选按钮
     const userId = 1; // 假设你已经获取了当前用户的ID
 
     useEffect(() => {
@@ -22,7 +25,12 @@ const Transaction = () => {
     const loadTransactions = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/User/transaction/${userId}`);
-            setTransactions(response.data);
+            const data = response.data.map(transaction => ({
+                ...transaction,
+                created_at: moment(transaction.created_at).format('YYYY-MM-DD')
+            }));
+            setTransactions(data);
+            setFilteredTransactions(data); // 初始加载所有交易记录
         } catch (error) {
             console.error('Error fetching transactions:', error);
         }
@@ -37,6 +45,45 @@ const Transaction = () => {
         }
     };
 
+    const filterTransactions = (period, customRange = []) => {
+        const now = moment();
+        let startDate;
+        let endDate = now;
+        let filterFn;
+
+        switch (period) {
+            case 'week':
+                startDate = now.clone().subtract(1, 'weeks').format('YYYY-MM-DD');
+                filterFn = transaction => moment(transaction.created_at).isBetween(startDate, endDate);
+                break;
+            case 'month':
+                startDate = now.clone().subtract(1, 'months').format('YYYY-MM-DD');
+                filterFn = transaction => moment(transaction.created_at).isBetween(startDate, endDate);
+                break;
+            case 'year':
+                startDate = now.clone().subtract(1, 'years').format('YYYY-MM-DD');
+                filterFn = transaction => moment(transaction.created_at).isBetween(startDate, endDate);
+                break;
+            case 'future':
+                filterFn = transaction => moment(transaction.created_at).isAfter(now.format('YYYY-MM-DD'));
+                break;
+            case 'custom':
+                if (customRange.length === 2) {
+                    startDate = customRange[0].format('YYYY-MM-DD');
+                    endDate = customRange[1].format('YYYY-MM-DD');
+                    filterFn = transaction => moment(transaction.created_at).isBetween(startDate, endDate);
+                } else {
+                    filterFn = transaction => true;
+                }
+                break;
+            default:
+                filterFn = transaction => true;
+        }
+
+        const filtered = transactions.filter(filterFn);
+        setFilteredTransactions(filtered);
+    };
+
     const handleSubmit = async (values) => {
         try {
             const { categoryName, orderdate, ...otherValues } = values;
@@ -49,7 +96,7 @@ const Transaction = () => {
 
             const transactionData = {
                 category: selectedCategory,
-                created_at: orderdate, // 将 orderdate 映射到 created_at
+                created_at: moment(orderdate).format('YYYY-MM-DD'), // 确保日期格式一致
                 ...otherValues
             };
 
@@ -93,6 +140,28 @@ const Transaction = () => {
         } catch (error) {
             console.error('Error deleting transaction:', error);
             message.error('Error deleting transaction');
+        }
+    };
+
+    const handleDateRangeChange = (dates) => {
+        if (dates && dates.length === 2) {
+            filterTransactions('custom', dates);
+        } else {
+            // 重新加载所有数据
+            setFilteredTransactions(transactions);
+            setActiveFilter(''); // 重置激活的筛选按钮
+        }
+    };
+
+    const handleFilterClick = (period) => {
+        if (activeFilter === period) {
+            // 如果当前筛选已经激活，取消筛选并重新加载所有数据
+            setFilteredTransactions(transactions);
+            setActiveFilter('');
+        } else {
+            // 否则应用新的筛选
+            filterTransactions(period);
+            setActiveFilter(period);
         }
     };
 
@@ -148,8 +217,38 @@ const Transaction = () => {
     return (
         <div className="content">
             <h2>Transaction Manager</h2>
-            <Button type="primary" onClick={() => { setModalOpen(true); setCurrentTransaction(null); }}>Add Transaction</Button>
-            <Table dataSource={transactions} columns={columns} rowKey="id" />
+            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '16px' }}>
+                <Button
+                    onClick={() => handleFilterClick('week')}
+                    type={activeFilter === 'week' ? 'primary' : 'default'}
+                >
+                    Last week
+                </Button>
+                <Button
+                    onClick={() => handleFilterClick('month')}
+                    style={{ marginLeft: '8px' }}
+                    type={activeFilter === 'month' ? 'primary' : 'default'}
+                >
+                    Last month
+                </Button>
+                <Button
+                    onClick={() => handleFilterClick('year')}
+                    style={{ marginLeft: '8px' }}
+                    type={activeFilter === 'year' ? 'primary' : 'default'}
+                >
+                    Last year
+                </Button>
+                <Button
+                    onClick={() => handleFilterClick('future')}
+                    style={{ marginLeft: '8px' }}
+                    type={activeFilter === 'future' ? 'primary' : 'default'}
+                >
+                    Future
+                </Button>
+                <RangePicker onChange={handleDateRangeChange} style={{ marginLeft: '8px' }} />
+                <Button type="primary" onClick={() => { setModalOpen(true); setCurrentTransaction(null); }} style={{ marginLeft: 'auto' }}>Add Transaction</Button>
+            </div>
+            <Table dataSource={filteredTransactions} columns={columns} rowKey="id" />
 
             <Modal
                 title={currentTransaction ? "Edit Transaction" : "Add Transaction"}
