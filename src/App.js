@@ -29,6 +29,10 @@ import PrivacyPolicy from "./components/common/Policy";
 import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
 import Transaction from "./components/user/Transaction";
+import View_All from "./components/admin/View_All";
+import View_accounts from "./components/admin/View_accounts";
+import User_Transaction from "./components/admin/User_Transaction";
+import Edit_User from "./components/admin/Edit_User";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -82,7 +86,6 @@ const AppContent = () => {
             path="/admin/user-transaction/:id"
             element={<User_Transaction />}
           />
-
           {/* User Routes */}
           <Route path="/user/dashboard" element={<Dashboard />} />
           <Route path="/user/budgetset" element={<BudgetSet />} />
