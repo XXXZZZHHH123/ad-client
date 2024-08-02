@@ -24,10 +24,11 @@ import Login from "./components/common/Login";
 import PrivacyPolicy from "./components/common/Policy";
 import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
-import View_All from "./components/admin/View_All";
-import View_accounts from "./components/admin/View_accounts";
-import User_Transaction from "./components/admin/User_Transaction";
-import Edit_User from "./components/admin/Edit_User";
+import Transaction from "./components/user/Transaction";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "./App.css";
 
 const AppContent = () => {
   const location = useLocation();
@@ -81,6 +82,7 @@ const AppContent = () => {
           {/* User Routes */}
           <Route path="/user/dashboard" element={<Dashboard />} />
           <Route path="/user/budgetset" element={<BudgetSet />} />
+          <Route path="/user/transaction" element={<Transaction />} />
           <Route path="/user/logout" element={<div>Logout</div>} />
 
           {/* Default Route */}

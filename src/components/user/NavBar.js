@@ -32,6 +32,11 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to={"/user/transaction"}>
+              Transaction
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to={"/user/logout"}>
                 Logout
               </Link>
