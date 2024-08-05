@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { FaTrashAlt, FaEye, FaEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CategoriesView = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCategories();
@@ -15,9 +16,7 @@ const CategoriesView = () => {
     try {
       const result = await axios.get("http://localhost:8080/Admin/categories", {
         withCredentials: true, // 确保请求携带凭证
-        validateStatus: () => true,
       });
-      console.log("Response Data:", result.data); // 添加日志
       if (result.status === 200 && Array.isArray(result.data)) {
         setCategories(result.data);
       } else {
@@ -37,8 +36,12 @@ const CategoriesView = () => {
       });
       loadCategories();
     } catch (error) {
-      setError("Error deleting category");
-      console.error("Error deleting category:", error);
+      if (error.response && error.response.status === 401) {
+        // 未授权，跳转到登录页面
+        navigate("/login");
+      } else {
+        console.error("Error deleting category:", error);
+      }
     }
   };
 
