@@ -19,7 +19,7 @@ const Add = () => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8080/Admin/add/1", category, {
-        withCredentials: true, // 确保请求携带凭证
+        withCredentials: true,
       });
       navigate("/admin/view-categories-system");
     } catch (error) {

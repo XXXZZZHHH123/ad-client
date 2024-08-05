@@ -1,18 +1,29 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:8080/api/logout",
+        {},
+        { withCredentials: true }
+      );
+      sessionStorage.removeItem("user");
+      navigate("/login");
+    } catch (error) {
+      console.error("Failed to logout", error);
+    }
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={"/admin"}>
-          Admin
+        <Link className="navbar-brand" to={"/"}>
+          SmartBook
         </Link>
         <button
           className="navbar-toggler"
@@ -28,56 +39,18 @@ const NavBar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100">
             <li className="nav-item dropdown">
-              <Link
-                className="nav-link dropdown-toggle"
-                to="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                View Categories
-              </Link>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to={"/admin/view-categories_all"}
-                  >
-                    Categories (All)
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to={"/admin/view-categories-system"}
-                  >
-                    Categories (System)
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to={"/admin/view-categories-user"}
-                  >
-                    Categories (User)
-                  </Link>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={"/admin/add-category"}>
-                Add Categories (System)
+              <Link className="nav-link" to={"/user/dashboard"}>
+                Dashboard
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/admin/transactions"}>
-                View All Transactions
+              <Link className="nav-link" to={"/user/budgetset"}>
+                BudgetSet
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/admin/view_user_account"}>
-                View All Users
+              <Link className="nav-link" to={"/user/transaction"}>
+                Transaction
               </Link>
             </li>
             <li className="nav-item ms-auto">
