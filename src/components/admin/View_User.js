@@ -64,7 +64,7 @@ const View_User = () => {
               </td>
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
-                  to={`/category-transaction/${category.id}`}
+                  to={`/admin/category-transaction/${category.id}`}
                   className="btn btn-info"
                 >
                   <FaEye />
@@ -72,7 +72,7 @@ const View_User = () => {
               </td>
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
-                  to={`/edit-category/${category.id}`}
+                  to={`/admin/edit-category/${category.id}`}
                   className="btn btn-warning"
                 >
                   <FaEdit />
