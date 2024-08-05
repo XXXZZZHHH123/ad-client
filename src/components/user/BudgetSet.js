@@ -3,6 +3,7 @@ import { Table, Button, Modal, Form, Input, message } from 'antd';
 import axios from 'axios';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { WordCloud } from '@ant-design/plots';
 
 const BudgetSet = () => {
     const [categories, setCategories] = useState([]);
@@ -119,6 +120,20 @@ const BudgetSet = () => {
 
     const getCategoryColor = (index) => COLORS[index % COLORS.length];
 
+    // 词云图配置
+    const wordCloudConfig = {
+        data: categories.map(category => ({ text: category.name, value: category.budget })),
+        wordField: 'text',
+        weightField: 'value',
+        colorField: 'text',
+        wordStyle: {
+            fontFamily: 'Verdana',
+            fontSize: [12, 40],
+            rotation: 0,
+        },
+        layout: { spiral: 'rectangular' },
+    };
+
     return (
         <div className="content">
             <h2>Budget Planner(Monthly)</h2>
@@ -152,25 +167,43 @@ const BudgetSet = () => {
                 </Form>
             </Modal>
 
-            {/* 饼图展示 */}
-            <PieChart width={400} height={400}>
-                <Pie
-                    data={categories}
-                    dataKey="budget"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={150}
-                    fill="#8884d8"
-                    label
-                >
-                    {categories.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
-                    ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-            </PieChart>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {/* 饼图展示 */}
+                <PieChart width={400} height={400}>
+                    <Pie
+                        data={categories}
+                        dataKey="budget"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={150}
+                        fill="#8884d8"
+                        label
+                    >
+                        {categories.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
+                        ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                </PieChart>
+
+                {/* 词云图展示 */}
+                <WordCloud
+                    data={categories.map(category => ({ text: category.name, value: category.budget }))}
+                    wordField="text"
+                    weightField="value"
+                    colorField="text"
+                    wordStyle={{
+                        fontFamily: 'Verdana',
+                        fontSize: [12, 40],
+                        rotation: 0,
+                    }}
+                    layout={{ spiral: 'rectangular' }}
+                    width={400}
+                    height={400}
+                />
+            </div>
         </div>
     );
 };

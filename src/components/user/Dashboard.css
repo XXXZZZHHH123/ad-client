@@ -1,0 +1,30 @@
+.card {
+    width: 180px;
+    height: 160px;
+    text-align: center;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.percentage-change {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.dashboard-container {
+    display: flex;
+    align-items: flex-start; /* 垂直顶部对齐 */
+    justify-content: flex-start; /* 水平左对齐 */
+    flex-wrap: wrap;
+    padding: 10px; /* 增加一些内边距 */
+    width: 100%; /* 确保容器宽度占满页面 */
+    height: 100vh; /* 确保容器高度占满页面 */
+    box-sizing: border-box; /* 包括 padding 在内 */
+
+}
+
+
+
