@@ -12,13 +12,20 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/login",
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      ); // Ensure cookies are sent with the request
+
       if (response.status === 200) {
         const user = response.data;
         sessionStorage.setItem("user", JSON.stringify(user));
+
+        // Navigate based on user role
         if (user.role === 0) {
           navigate("/admin");
         } else {

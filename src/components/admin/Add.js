@@ -5,19 +5,26 @@ import { Link, useNavigate } from "react-router-dom";
 const Add = () => {
   let navigate = useNavigate();
   const [category, setCategory] = useState({
-    categoryName: "",
+    name: "",
     budget: "",
-    categoryType: "",
+    type: "",
   });
-  const { name, budget, categoryType } = category;
+  const { name, budget, type } = category;
 
   const handleInputChange = (e) => {
     setCategory({ ...category, [e.target.name]: e.target.value });
   };
+
   const saveCategory = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/Admin/add/1", category);
-    navigate("/admin/view-categories-system");
+    try {
+      await axios.post("http://localhost:8080/Admin/add/1", category, {
+        withCredentials: true, // 确保请求携带凭证
+      });
+      navigate("/admin/view-categories-system");
+    } catch (error) {
+      console.error("Error saving category:", error);
+    }
   };
 
   return (
@@ -55,15 +62,15 @@ const Add = () => {
         </div>
 
         <div className="input-group mb-5">
-          <label className="input-group-text" htmlFor="categoryType">
+          <label className="input-group-text" htmlFor="type">
             Category Type
           </label>
           <select
             className="form-control col-sm-6"
-            name="categoryType"
-            id="categoryType"
+            name="type"
+            id="type"
             required
-            value={categoryType}
+            value={type}
             onChange={(e) => handleInputChange(e)}
           >
             <option value="">Select Type</option>

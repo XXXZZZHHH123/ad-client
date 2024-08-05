@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const CategoriesView = () => {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     loadCategories();
@@ -13,25 +14,37 @@ const CategoriesView = () => {
   const loadCategories = async () => {
     try {
       const result = await axios.get("http://localhost:8080/Admin/categories", {
+        withCredentials: true, // 确保请求携带凭证
         validateStatus: () => true,
       });
+      console.log("Response Data:", result.data); // 添加日志
       if (result.status === 200 && Array.isArray(result.data)) {
         setCategories(result.data);
       } else {
-        console.error("Failed to load categories or invalid format");
+        setError("Failed to load categories or invalid format");
+        console.error("Failed to load categories or invalid format", result);
       }
     } catch (error) {
+      setError("Error fetching categories");
       console.error("Error fetching categories:", error);
     }
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:8080/Admin/delete/${id}`);
-    loadCategories();
+    try {
+      await axios.delete(`http://localhost:8080/Admin/delete/${id}`, {
+        withCredentials: true, // 确保请求携带凭证
+      });
+      loadCategories();
+    } catch (error) {
+      setError("Error deleting category");
+      console.error("Error deleting category:", error);
+    }
   };
 
   return (
     <section>
+      {error && <div className="error">{error}</div>}
       <table className="table table-bordered table-hover shadow">
         <thead>
           <tr className="text-center">
@@ -48,7 +61,7 @@ const CategoriesView = () => {
         <tbody className="text-center">
           {categories.map((category, index) => (
             <tr key={category.id}>
-              <th scope="row" key={index} style={{ verticalAlign: "middle" }}>
+              <th scope="row" style={{ verticalAlign: "middle" }}>
                 {index + 1}
               </th>
               <td style={{ verticalAlign: "middle" }}>{category.name}</td>

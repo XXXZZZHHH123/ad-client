@@ -29,6 +29,7 @@ import PrivacyPolicy from "./components/common/Policy";
 import Register from "./components/common/Register";
 import Dashboard from "./components/user/Dashboard";
 import Transaction from "./components/user/Transaction";
+import PrivateRoute from "./components/PrivateRoute";
 
 const AppContent = () => {
   const location = useLocation();
@@ -48,40 +49,65 @@ const AppContent = () => {
           <Route path="/register" element={<Register />} />
 
           {/* Admin Routes */}
-          <Route path="/admin/view-categories_all" element={<View_All />} />
+          <Route
+            path="/admin/view-categories_all"
+            element={<PrivateRoute element={<View_All />} />}
+          />
           <Route
             path="/admin/view-categories-system"
-            element={<SystemCategoriesView />}
+            element={<PrivateRoute element={<SystemCategoriesView />} />}
           />
           <Route
             path="/admin/view-categories-user"
-            element={<UserCategoriesView />}
+            element={<PrivateRoute element={<UserCategoriesView />} />}
           />
-          <Route path="/admin/add-category" element={<Add />} />
-          <Route path="/admin/edit-category/:id" element={<Edit />} />
+          <Route
+            path="/admin/add-category"
+            element={<PrivateRoute element={<Add />} />}
+          />
+          <Route
+            path="/admin/edit-category/:id"
+            element={<PrivateRoute element={<Edit />} />}
+          />
           <Route
             path="/admin/transaction-description/:id"
-            element={<Transaction_Detail />}
+            element={<PrivateRoute element={<Transaction_Detail />} />}
           />
           <Route
             path="/admin/category-transaction/:id"
-            element={<View_Transactions />}
+            element={<PrivateRoute element={<View_Transactions />} />}
           />
           <Route
             path="/admin/transactions"
-            element={<View_All_Transactions />}
+            element={<PrivateRoute element={<View_All_Transactions />} />}
           />
-          <Route path="/admin" element={<Home />} />
-          <Route path="/admin/view_user_account" element={<View_accounts />} />
-          <Route path="/admin/edit-user/:id" element={<Edit_User />} />
+          <Route path="/admin" element={<PrivateRoute element={<Home />} />} />
+          <Route
+            path="/admin/view_user_account"
+            element={<PrivateRoute element={<View_accounts />} />}
+          />
+          <Route
+            path="/admin/edit-user/:id"
+            element={<PrivateRoute element={<Edit_User />} />}
+          />
           <Route
             path="/admin/user-transaction/:id"
-            element={<User_Transaction />}
+            element={<PrivateRoute element={<User_Transaction />} />}
           />
+
           {/* User Routes */}
-          <Route path="/user/dashboard" element={<Dashboard />} />
-          <Route path="/user/budgetset" element={<BudgetSet />} />
-          <Route path="/user/transaction" element={<Transaction />} />
+          <Route
+            path="/user/dashboard"
+            element={<PrivateRoute element={<Dashboard />} />}
+          />
+          <Route
+            path="/user/budgetset"
+            element={<PrivateRoute element={<BudgetSet />} />}
+          />
+          <Route
+            path="/user/transaction"
+            element={<PrivateRoute element={<Transaction />} />}
+          />
           <Route path="/user/logout" element={<div>Logout</div>} />
 
           {/* Default Route */}
