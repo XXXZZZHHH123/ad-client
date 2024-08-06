@@ -80,7 +80,7 @@ const Home = () => {
   const getCategoryColor = (index) => COLORS[index % COLORS.length];
 
   return (
-    <div className="content">
+    <div className="Home-content">
       <div className="left-container">
         <h3>System defined categories</h3>
         <Button type="primary" onClick={handleViewDetails} className="button">
