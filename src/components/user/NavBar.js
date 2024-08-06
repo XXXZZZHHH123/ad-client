@@ -21,9 +21,9 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={"/"}>
+        <h1 >
           SmartBook
-        </Link>
+        </h1>
         <button
           className="navbar-toggler"
           type="button"
