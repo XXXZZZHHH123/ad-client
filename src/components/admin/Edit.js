@@ -30,7 +30,7 @@ const Edit = () => {
 
   const updateCategory = async (e) => {
     e.preventDefault();
-    const { name, budget, type } = category; // 只提取必要字段
+    const { name, budget, type } = category;
     try {
       const response = await axios.put(
         `http://localhost:8080/Admin/update/${id}`,

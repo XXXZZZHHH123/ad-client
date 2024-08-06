@@ -3,30 +3,48 @@ import { Button } from "antd";
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { useNavigate } from "react-router-dom";
-import "./Home.css";
+import "./AdminHome.css";
 
 const Home = () => {
-  const [categories, setCategories] = useState([]);
-  const categoryType = 0;
+  const [systemCategories, setSystemCategories] = useState([]);
+  const [userCategories, setUserCategories] = useState([]);
+  const SystemcategoryType = 0;
+  const UsercategoryType = 1; // Ensure this is the correct type for user categories
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadCategories();
+    loadSystemCategories();
+    loadUserCategories();
   }, []);
 
-  const loadCategories = async () => {
+  const loadSystemCategories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/Admin/categories/${categoryType}`
+        `http://localhost:8080/Admin/categories/${SystemcategoryType}`
       );
-      setCategories(response.data);
+      setSystemCategories(response.data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching system categories:", error);
     }
   };
 
-  const handleViewDetails = () => {
-    navigate("/admin/view-categories_all");
+  const loadUserCategories = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/Admin/categories/${UsercategoryType}`
+      );
+      setUserCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching user categories:", error);
+    }
+  };
+
+  const handleViewSystemDetails = () => {
+    navigate("/admin/view-categories-system");
+  };
+
+  const handleViewUserDetails = () => {
+    navigate("/admin/view-categories-user");
   };
 
   const COLORS = [
@@ -83,12 +101,16 @@ const Home = () => {
     <div className="content">
       <div className="left-container">
         <h3>System defined categories</h3>
-        <Button type="primary" onClick={handleViewDetails} className="button">
+        <Button
+          type="primary"
+          onClick={handleViewSystemDetails}
+          className="button"
+        >
           View categories' details
         </Button>
         <PieChart width={400} height={410}>
           <Pie
-            data={categories}
+            data={systemCategories}
             dataKey="budget"
             nameKey="name"
             cx="50%"
@@ -97,7 +119,7 @@ const Home = () => {
             fill="#8884d8"
             label
           >
-            {categories.map((entry, index) => (
+            {systemCategories.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
             ))}
           </Pie>
@@ -116,13 +138,17 @@ const Home = () => {
         </div>
       </div>
       <div className="right-container">
-        <h3>System defined categories</h3>
-        <Button type="primary" onClick={handleViewDetails} className="button">
+        <h3>User defined categories</h3>
+        <Button
+          type="primary"
+          onClick={handleViewUserDetails}
+          className="button"
+        >
           View categories' details
         </Button>
         <PieChart width={400} height={410}>
           <Pie
-            data={categories}
+            data={userCategories}
             dataKey="budget"
             nameKey="name"
             cx="50%"
@@ -131,7 +157,7 @@ const Home = () => {
             fill="#8884d8"
             label
           >
-            {categories.map((entry, index) => (
+            {userCategories.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
             ))}
           </Pie>
@@ -140,7 +166,7 @@ const Home = () => {
         </PieChart>
         <div className="description">
           <p>
-            The pie chart on the top shows the amounts of all System defined
+            The pie chart on the top shows the amounts of all User defined
             categories and their proportions in all expenditures.
           </p>
           <p>
