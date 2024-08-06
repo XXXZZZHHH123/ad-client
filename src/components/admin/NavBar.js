@@ -20,7 +20,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white mb-5 w-100 custom-navbar">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/admin"}>
           Admin

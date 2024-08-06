@@ -37,11 +37,6 @@ const NavBar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100">
-            <li className="nav-item dropdown">
-              <Link className="nav-link" to={"/user/dashboard"}>
-                Dashboard
-              </Link>
-            </li>
             <li className="nav-item">
               <Link className="nav-link" to={"/user/budgetset"}>
                 BudgetSet

@@ -19,9 +19,43 @@ html {
 .site-layout-content {
   width: 100%;
   padding: 16px;
+  margin-top: 56px; /* 确保内容不被导航栏遮挡 */
 }
 
 .navbar .container-fluid {
   padding-left: 20px;
   padding-right: 20px;
+}
+
+/* 自定义样式 */
+.custom-navbar {
+  background-color: white; /* 设置背景颜色为白色 */
+  color: black; /* 设置文本颜色为黑色 */
+  border: 2px solid #ffffff; /* 添加四周深色边框 */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar .navbar-brand {
+  color: black; /* 设置品牌文字颜色为黑色 */
+}
+
+.custom-navbar .nav-link {
+  color: black; /* 设置链接文字颜色为黑色 */
+}
+
+.custom-navbar .nav-link:hover {
+  color: gray; /* 设置链接悬停时的颜色 */
+}
+
+.custom-navbar .dropdown-menu {
+  background-color: white; /* 设置下拉菜单背景颜色为白色 */
+}
+
+.custom-navbar .dropdown-item {
+  color: black; /* 设置下拉菜单项的颜色为黑色 */
+}
+
+.custom-navbar .dropdown-item:hover {
+  background-color: #f8f9fa; /* 设置下拉菜单项悬停时的背景颜色 */
 }

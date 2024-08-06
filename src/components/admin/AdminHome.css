@@ -1,5 +1,9 @@
 .Home-content {
   display: flex;
+  justify-content: space-around; /* 确保左右容器有一定的间距 */
+  background-color: rgb(235, 238, 247); /* 修改为较浅的背景颜色 */
+  padding: 20px;
+  border-radius: 20px; /* 添加整体容器的圆角 */
 }
 
 .left-container,
@@ -7,8 +11,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
+  width: 38%; /* 调整宽度以增加间距 */
   padding: 20px;
+  background-color: white; /* 设置背景颜色为白色 */
+  border-radius: 20px; /* 添加圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .button {
@@ -18,4 +25,35 @@
 .description {
   margin-top: 20px;
   text-align: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%; /* 调整宽度以适应表单内容 */
+  padding: 20px;
+  background-color: white; /* 设置背景颜色为白色 */
+  border-radius: 20px; /* 添加圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影以实现浮动效果 */
+  margin: 0 auto; /* 使容器水平居中 */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* 确保容器占满可用宽度 */
+  margin-top: 20px; /* 为按钮容器添加一些顶部间距 */
+}
+
+.button-container .btn {
+  flex: 1;
+  margin: 0 10px; /* 为按钮添加左右间距，防止重叠 */
+}
+
+.input-wide {
+  width: 100%; /* 使输入框占满父容器的宽度 */
+}
+.input-group .form-control {
+  width: 50%; /* 确保输入框占满父容器的宽度 */
 }

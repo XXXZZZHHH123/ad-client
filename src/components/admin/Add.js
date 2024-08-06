@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./AdminHome.css"; // 确保引入 CSS 文件
 
 const Add = () => {
   let navigate = useNavigate();
@@ -28,15 +29,16 @@ const Add = () => {
   };
 
   return (
-    <div className="col-sm-8 py-2 px-5">
-      <h2 className="mt-5">Add Category</h2>
+    <div className="form-container">
+      <h3>Add Category</h3>
+      <p></p>
       <form onSubmit={(e) => saveCategory(e)}>
         <div className="input-group mb-5">
           <label className="input-group-text" htmlFor="name">
             Name
           </label>
           <input
-            className="form-control col-sm-6"
+            className="form-control input-wide" // 添加新的类
             type="text"
             name="name"
             id="name"
@@ -51,7 +53,7 @@ const Add = () => {
             Budget
           </label>
           <input
-            className="form-control col-sm-6"
+            className="form-control input-wide" // 添加新的类
             type="number"
             name="budget"
             id="budget"
@@ -66,7 +68,7 @@ const Add = () => {
             Category Type
           </label>
           <select
-            className="form-control col-sm-6"
+            className="form-control input-wide" // 添加新的类
             name="type"
             id="type"
             required
@@ -79,22 +81,18 @@ const Add = () => {
           </select>
         </div>
 
-        <div className="row mb-5">
-          <div className="col-sm-2">
-            <button type="submit" className="btn btn-outline-success btn-lg">
-              Save
-            </button>
-          </div>
-
-          <div className="col-sm-2">
-            <Link
-              to={"/view-categories"}
-              type="submit"
-              className="btn btn-outline-warning btn-lg"
-            >
-              Cancel
-            </Link>
-          </div>
+        <div className="button-container">
+          {" "}
+          {/* 使用新添加的类 */}
+          <button type="submit" className="btn btn-outline-success btn-lg">
+            Save
+          </button>
+          <Link
+            to={"/admin/view-categories_all"}
+            className="btn btn-outline-warning btn-lg"
+          >
+            Cancel
+          </Link>
         </div>
       </form>
     </div>

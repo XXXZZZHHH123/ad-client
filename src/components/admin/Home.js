@@ -9,7 +9,7 @@ const Home = () => {
   const [systemCategories, setSystemCategories] = useState([]);
   const [userCategories, setUserCategories] = useState([]);
   const SystemcategoryType = 0;
-  const UsercategoryType = 1; // Ensure this is the correct type for user categories
+  const UsercategoryType = 1;
   const navigate = useNavigate();
 
   useEffect(() => {

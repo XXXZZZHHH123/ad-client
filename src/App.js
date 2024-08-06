@@ -38,7 +38,7 @@ const AppContent = () => {
   const hideNavBar = hideNavBarPaths.includes(location.pathname);
 
   return (
-    <main className="container-fluid mt-5">
+    <main className="container-fluid">
       {!hideNavBar && location.pathname.startsWith("/admin") && <AdminNavBar />}
       {!hideNavBar && location.pathname.startsWith("/user") && <NavBar />}
       <div className="site-layout-content" style={{ margin: "16px 0" }}>
