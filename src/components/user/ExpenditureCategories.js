@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import axios from 'axios';
+import './Dashboard.css'
 
 const COLORS = [
     '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6384',
@@ -53,7 +54,7 @@ const ExpenditureCategories = ({ userId }) => {
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', margin: '20px' }}>
-            <div style={{ width: '45%' }}>
+            <div style={{ width: '100%' }}>
                 <ResponsiveContainer width="100%" height={400}>
                     <PieChart>
                         <Pie

@@ -13,7 +13,7 @@ const TotalExpense = ({ amount, percentageChange }) => {
     return (
         <Card className="card" bordered={false}>
             <Text type="secondary">Total Expense</Text>
-            <Typography.Title level={2}>${amount.toFixed(2)}</Typography.Title>
+            <Typography.Title level={2}>${amount.toFixed(0)}</Typography.Title>
             <div className="percentage-change" style={{ color: percentageColor }}>
                 {isPositive ? <ArrowDownOutlined /> : <ArrowUpOutlined />} {Math.abs(Math.round(percentageChange))}%
             </div>

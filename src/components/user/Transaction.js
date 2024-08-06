@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, message, Select, DatePicker } from 'antd';
 import axios from 'axios';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
-import moment from 'moment'; // 引入 moment 库
+import moment from 'moment';
+import {useUser} from "../../UserContext"; // 引入 moment 库
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -21,12 +22,12 @@ const Transaction = () => {
         amount: null,
     });
     const [activeFilter, setActiveFilter] = useState(''); // 用于存储当前激活的筛选按钮
-    const userId = 1; // 假设你已经获取了当前用户的ID
+    const { userId } = useUser(); // 假设你已经获取了当前用户的ID
 
     useEffect(() => {
         loadTransactions();
         loadCategories();
-    }, []);
+    }, [userId]);
 
     const loadTransactions = async () => {
         try {
@@ -182,6 +183,9 @@ const Transaction = () => {
                 message.success('Transaction created successfully');
                 setTransactions(prevTransactions => [...prevTransactions, response.data]);
             }
+
+            // 重新加载交易数据
+            await loadTransactions();
             setModalOpen(false);
             form.resetFields();
             setCurrentTransaction(null);

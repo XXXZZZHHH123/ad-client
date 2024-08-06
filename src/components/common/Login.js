@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../UserContext"; // 导入 useUser 钩子
 import "../../style.css";
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUserId } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,12 +26,12 @@ const Login = () => {
       if (response.status === 200) {
         const user = response.data;
         sessionStorage.setItem("user", JSON.stringify(user));
-
+        setUserId(user.id);
         // Navigate based on user role
         if (user.role === 0) {
           navigate("/admin");
         } else {
-          navigate("/user");
+          navigate("/user/dashboard");
         }
       } else {
         setError("Invalid credentials");

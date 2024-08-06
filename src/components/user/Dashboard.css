@@ -16,15 +16,59 @@
 
 .dashboard-container {
     display: flex;
-    align-items: flex-start; /* 垂直顶部对齐 */
-    justify-content: flex-start; /* 水平左对齐 */
-    flex-wrap: wrap;
-    padding: 10px; /* 增加一些内边距 */
-    width: 100%; /* 确保容器宽度占满页面 */
-    height: 100vh; /* 确保容器高度占满页面 */
-    box-sizing: border-box; /* 包括 padding 在内 */
+    flex-direction: row;
+    margin-top: 30px;
+    margin-left: 50px;
+    align-items: center;
+}
+
+.line-chart-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.budget-utilization-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: -50px;
+}
+
+.description {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #888;
+}
+
+.total{
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard-left{
+    display: flex;
+    flex-direction: column;
+}
+
+.expenditure-categories{
+    margin-left: 50px;
+    justify-content: center;
+}
+
+.dashboard-right{
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: 600px;
+}
+
+.expense-line-chart{
 
 }
 
-
-
+.dashboard-right h3{
+    text-align: center;
+    margin-bottom: 100px;
+}

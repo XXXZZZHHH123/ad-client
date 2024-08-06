@@ -4,17 +4,20 @@ import axios from 'axios';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { WordCloud } from '@ant-design/plots';
+import { useUser } from '../../UserContext'; // 确保路径正确
 
 const BudgetSet = () => {
     const [categories, setCategories] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [form] = Form.useForm();
     const [currentCategory, setCurrentCategory] = useState(null);
-    const userId = 1; // 假设你已经获取了当前用户的ID
+    const { userId } = useUser(); // 动态获取当前用户的ID
 
     useEffect(() => {
-        loadCategories();
-    }, []);
+        if (userId) {
+            loadCategories();
+        }
+    }, [userId]);
 
     const loadCategories = async () => {
         try {
@@ -25,33 +28,45 @@ const BudgetSet = () => {
         }
     };
 
-    const handleSubmit = async (values) => {
+    const createCategory = async (values) => {
         try {
-            let response;
-            if (currentCategory) {
-                response = await axios.put(`http://localhost:8080/User/budget/update/${currentCategory.id}`, {
-                    budget: values.amount
-                });
-                message.success('Category updated successfully');
-                setCategories(prevCategories =>
-                    prevCategories.map(cat => (cat.id === currentCategory.id ? response.data : cat))
-                );
-            } else {
-                response = await axios.post(`http://localhost:8080/User/budget/add/${userId}`, {
-                    name: values.category,
-                    budget: values.amount,
-                    type: 1
-                });
-                message.success('Category created successfully');
-                setCategories(prevCategories => [...prevCategories, response.data]);
-            }
-            setModalOpen(false);
-            form.resetFields();
-            setCurrentCategory(null);
+            const response = await axios.post(`http://localhost:8080/User/budget/add/${userId}`, {
+                name: values.category,
+                budget: values.amount,
+                type: 1
+            });
+            message.success('Category created successfully');
+            setCategories(prevCategories => [...prevCategories, response.data]);
         } catch (error) {
-            console.error('Error creating/updating category:', error);
+            console.error('Error creating category:', error);
             message.error('Category with the same name already exists');
         }
+    };
+
+    const updateCategory = async (values) => {
+        try {
+            await axios.put(`http://localhost:8080/User/budget/update/${currentCategory.id}`, {
+                budget: values.amount
+            });
+            message.success('Category updated successfully');
+            setCategories(prevCategories =>
+                prevCategories.map(cat => (cat.id === currentCategory.id ? { ...cat, budget: values.amount } : cat))
+            );
+        } catch (error) {
+            console.error('Error updating category:', error);
+            message.error('Failed to update category');
+        }
+    };
+
+    const handleSubmit = async (values) => {
+        if (currentCategory) {
+            await updateCategory(values);
+        } else {
+            await createCategory(values);
+        }
+        setModalOpen(false);
+        form.resetFields();
+        setCurrentCategory(null);
     };
 
     const handleEdit = (category) => {
@@ -120,7 +135,6 @@ const BudgetSet = () => {
 
     const getCategoryColor = (index) => COLORS[index % COLORS.length];
 
-    // 词云图配置
     const wordCloudConfig = {
         data: categories.map(category => ({ text: category.name, value: category.budget })),
         wordField: 'text',
@@ -139,7 +153,7 @@ const BudgetSet = () => {
             <h2>Budget Planner(Monthly)</h2>
             <Button type="primary" onClick={() => { setModalOpen(true); setCurrentCategory(null); }}>Add Budget</Button>
             <Table dataSource={categories} columns={columns} rowKey="id" />
-            
+
             <Modal
                 title={currentCategory ? "Edit Budget" : "Add Budget"}
                 open={modalOpen}
@@ -168,7 +182,6 @@ const BudgetSet = () => {
             </Modal>
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {/* 饼图展示 */}
                 <PieChart width={400} height={400}>
                     <Pie
                         data={categories}
@@ -188,21 +201,7 @@ const BudgetSet = () => {
                     <Legend />
                 </PieChart>
 
-                {/* 词云图展示 */}
-                <WordCloud
-                    data={categories.map(category => ({ text: category.name, value: category.budget }))}
-                    wordField="text"
-                    weightField="value"
-                    colorField="text"
-                    wordStyle={{
-                        fontFamily: 'Verdana',
-                        fontSize: [12, 40],
-                        rotation: 0,
-                    }}
-                    layout={{ spiral: 'rectangular' }}
-                    width={400}
-                    height={400}
-                />
+                <WordCloud {...wordCloudConfig} />
             </div>
         </div>
     );
