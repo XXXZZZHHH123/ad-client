@@ -15,7 +15,7 @@ const CategoriesView = () => {
   const loadCategories = async () => {
     try {
       const result = await axios.get("http://localhost:8080/Admin/categories", {
-        withCredentials: true, // 确保请求携带凭证
+        withCredentials: true,
       });
       if (result.status === 200 && Array.isArray(result.data)) {
         setCategories(result.data);
@@ -32,12 +32,11 @@ const CategoriesView = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/Admin/delete/${id}`, {
-        withCredentials: true, // 确保请求携带凭证
+        withCredentials: true,
       });
       loadCategories();
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        // 未授权，跳转到登录页面
         navigate("/login");
       } else {
         console.error("Error deleting category:", error);
