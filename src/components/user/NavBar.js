@@ -21,9 +21,9 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100">
       <div className="container-fluid">
-        <h1 >
+        <Link className="navbar-brand" to={"/dashboard"}>
           SmartBook
-        </h1>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
