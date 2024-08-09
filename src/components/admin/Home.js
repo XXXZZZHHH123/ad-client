@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import axios from "axios";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 import { useNavigate } from "react-router-dom";
 import "./AdminHome.css";
 
 const Home = () => {
   const [systemCategories, setSystemCategories] = useState([]);
   const [userCategories, setUserCategories] = useState([]);
+  const [averageAmounts, setAverageAmounts] = useState([]);
+  const [topCategories, setTopCategories] = useState([]);
   const SystemcategoryType = 0;
   const UsercategoryType = 1;
   const navigate = useNavigate();
@@ -15,6 +28,8 @@ const Home = () => {
   useEffect(() => {
     loadSystemCategories();
     loadUserCategories();
+    loadAverageAmounts();
+    loadTopCategories();
   }, []);
 
   const loadSystemCategories = async () => {
@@ -39,12 +54,53 @@ const Home = () => {
     }
   };
 
+  const loadAverageAmounts = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/Admin/average-amount-per-category`
+      );
+      const averageAmountsData = response.data;
+
+      const averageAmountsMap = {};
+      averageAmountsData.forEach((item) => {
+        averageAmountsMap[item[0]] = item[1];
+      });
+
+      console.log("Average Amounts Map:", averageAmountsMap);
+      setAverageAmounts(averageAmountsMap);
+    } catch (error) {
+      console.error("Error fetching average amounts:", error);
+    }
+  };
+
+  const loadTopCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/Admin/top-categories"
+      );
+      const topCategoriesData = response.data;
+
+      const formattedData = topCategoriesData.map((item) => ({
+        name: item[0],
+        usageCount: item[1],
+      }));
+
+      setTopCategories(formattedData);
+    } catch (error) {
+      console.error("Error fetching top categories:", error);
+    }
+  };
+
   const handleViewSystemDetails = () => {
     navigate("/admin/view-categories-system");
   };
 
   const handleViewUserDetails = () => {
     navigate("/admin/view-categories-user");
+  };
+
+  const handleViewTransaction = () => {
+    navigate("/admin/transactions");
   };
 
   const COLORS = [
@@ -97,82 +153,156 @@ const Home = () => {
 
   const getCategoryColor = (index) => COLORS[index % COLORS.length];
 
+  const mergedData = systemCategories.map((category) => {
+    return {
+      name: category.name,
+      amount: category.budget,
+      averageAmount: averageAmounts[category.name] || 0,
+    };
+  });
+
   return (
-    <div className="Home-content">
-      <div className="left-container">
-        <h3>System defined categories</h3>
-        <Button
-          type="primary"
-          onClick={handleViewSystemDetails}
-          className="button"
-        >
-          View categories' details
-        </Button>
-        <PieChart width={400} height={410}>
-          <Pie
-            data={systemCategories}
-            dataKey="budget"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={150}
-            fill="#8884d8"
-            label
+    <div className="home-container">
+      <div className="chart-wrapper">
+        <div className="chart-container">
+          <h3>System defined budgets</h3>
+          <Button
+            type="primary"
+            onClick={handleViewSystemDetails}
+            className="button"
           >
-            {systemCategories.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-        <div className="description">
-          <p>
-            The pie chart on the left shows the amounts of all System defined
-            categories and their proportions in all expenditures.
-          </p>
-          <p>
-            If you want to modify categories, please click the "View categories'
-            details" button.
-          </p>
+            View budgets' details
+          </Button>
+          <PieChart width={400} height={410}>
+            <Pie
+              data={systemCategories}
+              dataKey="budget"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={150}
+              fill="#8884d8"
+              label
+            >
+              {systemCategories.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+          <div className="description">
+            <p>
+              The pie chart above shows the amounts of all System defined
+              budgets and their proportions in all expenditures.
+            </p>
+            <p>
+              If you want to modify budgets, please click the "View budgets'
+              details" button.
+            </p>
+          </div>
+        </div>
+
+        <div className="chart-container">
+          <h3>Budget amount / Average amount</h3>
+          <Button
+            type="primary"
+            onClick={handleViewTransaction}
+            className="button"
+          >
+            View transactions
+          </Button>
+          <BarChart width={700} height={300} data={mergedData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="amount" fill="#8884d8" name="Budget Amount" />
+            <Bar dataKey="averageAmount" fill="#82ca9d" name="Average Amount" />
+          </BarChart>
+          <div className="description">
+            <p>
+              The bar chart above illustrates a comparison between the amounts
+              of all system-defined budgets and the user's average monthly
+              expenditure in this category.
+            </p>
+            <p>
+              If you want to view transations, please click the "View
+              transactions" button.
+            </p>
+          </div>
         </div>
       </div>
-      <div className="right-container">
-        <h3>User defined categories</h3>
-        <Button
-          type="primary"
-          onClick={handleViewUserDetails}
-          className="button"
-        >
-          View categories' details
-        </Button>
-        <PieChart width={400} height={410}>
-          <Pie
-            data={userCategories}
-            dataKey="budget"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={150}
-            fill="#8884d8"
-            label
+
+      <div className="chart-wrapper">
+        <div className="chart-container">
+          <h3>User defined budgets</h3>
+          <Button
+            type="primary"
+            onClick={handleViewUserDetails}
+            className="button"
           >
-            {userCategories.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-        <div className="description">
-          <p>
-            The pie chart on the top shows the amounts of all User defined
-            categories and their proportions in all expenditures.
-          </p>
-          <p>
-            If you want to modify categories, please click the "View categories'
-            details" button.
-          </p>
+            View budgets' details
+          </Button>
+          <PieChart width={400} height={410}>
+            <Pie
+              data={userCategories}
+              dataKey="budget"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={150}
+              fill="#8884d8"
+              label
+            >
+              {userCategories.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+          <div className="description">
+            <p>
+              The pie chart above shows the amounts of all User defined budgets
+              and their proportions in all expenditures.
+            </p>
+            <p>
+              If you want to modify budgets, please click the "View budgets'
+              details" button.
+            </p>
+          </div>
+        </div>
+
+        <div className="chart-container">
+          <h3>Top categories by usage</h3>
+          <Button
+            type="primary"
+            onClick={handleViewTransaction}
+            className="button"
+          >
+            View transactions
+          </Button>
+          <BarChart width={700} height={300} data={topCategories}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="usageCount" fill="#8884d8" name="Usage Count" />
+          </BarChart>
+          <div className="description">
+            <p>
+              The bar chart above shows the top categories by transactions
+              count, it only select top five categories which can be add to
+              System defined budgets
+            </p>
+            <p>
+              If you want to view transations, please click the "View
+              transactions" button.
+            </p>
+          </div>
         </div>
       </div>
     </div>

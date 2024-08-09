@@ -1,9 +1,37 @@
-.Home-content {
+.home-container {
   display: flex;
-  justify-content: space-around; /* 确保左右容器有一定的间距 */
-  background-color: rgb(235, 238, 247); /* 修改为较浅的背景颜色 */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: rgb(235, 238, 247);
   padding: 20px;
-  border-radius: 20px; /* 添加整体容器的圆角 */
+  border-radius: 20px;
+}
+
+.chart-wrapper {
+  width: 48%; /* 每个容器占父容器的48%宽度，确保两列布局 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px; /* 在行与行之间增加间距 */
+}
+
+.chart-container {
+  width: 100%; /* 容器占满chart-wrapper的宽度 */
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px; /* 在chart-container之间添加垂直间距 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.chart-container h3 {
+  margin-bottom: 20px;
 }
 
 .left-container,
@@ -11,10 +39,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 38%; /* 调整宽度以增加间距 */
+  width: 38%;
   padding: 20px;
-  background-color: white; /* 设置背景颜色为白色 */
-  border-radius: 20px; /* 添加圆角 */
+  background-color: white;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
