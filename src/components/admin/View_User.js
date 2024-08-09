@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaTrashAlt, FaEye, FaEdit } from "react-icons/fa";
+import { FaTrashAlt, FaEye, FaEdit, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const View_User = () => {
@@ -35,12 +35,18 @@ const View_User = () => {
 
   return (
     <section>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>User Defined Budgets</h2>
+        <Link to="/admin/add-category" className="btn btn-primary">
+          <FaPlus /> New Budget
+        </Link>
+      </div>
       <table className="table table-bordered table-hover shadow">
         <thead>
           <tr className="text-center">
             <th>ID</th>
-            <th>Category Name</th>
-            <th>Budget</th>
+            <th>Category</th>
+            <th>Amount</th>
             <th>Type</th>
             <th>Defined by</th>
             <th>Transactions</th>

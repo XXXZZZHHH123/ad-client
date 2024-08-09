@@ -47,7 +47,7 @@ const NavBar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                View Categories
+                Budgets
               </Link>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
@@ -55,7 +55,7 @@ const NavBar = () => {
                     className="dropdown-item"
                     to={"/admin/view-categories_all"}
                   >
-                    Categories (All)
+                    Budgets (All)
                   </Link>
                 </li>
                 <li>
@@ -63,7 +63,7 @@ const NavBar = () => {
                     className="dropdown-item"
                     to={"/admin/view-categories-system"}
                   >
-                    Categories (System)
+                    Budgets (System)
                   </Link>
                 </li>
                 <li>
@@ -71,24 +71,19 @@ const NavBar = () => {
                     className="dropdown-item"
                     to={"/admin/view-categories-user"}
                   >
-                    Categories (User)
+                    Budgets (User)
                   </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={"/admin/add-category"}>
-                Add Categories (System)
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to={"/admin/transactions"}>
-                View All Transactions
+                Transactions
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to={"/admin/view_user_account"}>
-                View All Users
+                Users
               </Link>
             </li>
             <li className="nav-item ms-auto">

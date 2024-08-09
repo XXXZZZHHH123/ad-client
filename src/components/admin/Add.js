@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./AdminHome.css"; // 确保引入 CSS 文件
+import "./AdminHome.css";
 
 const Add = () => {
   let navigate = useNavigate();
@@ -30,7 +30,7 @@ const Add = () => {
 
   return (
     <div className="form-container">
-      <h3>Add Category</h3>
+      <h3>Add Budget</h3>
       <p></p>
       <form onSubmit={(e) => saveCategory(e)}>
         <div className="input-group mb-5">
@@ -38,7 +38,7 @@ const Add = () => {
             Name
           </label>
           <input
-            className="form-control input-wide" // 添加新的类
+            className="form-control input-wide"
             type="text"
             name="name"
             id="name"
@@ -50,10 +50,10 @@ const Add = () => {
 
         <div className="input-group mb-5">
           <label className="input-group-text" htmlFor="budget">
-            Budget
+            Amount
           </label>
           <input
-            className="form-control input-wide" // 添加新的类
+            className="form-control input-wide"
             type="number"
             name="budget"
             id="budget"
@@ -68,7 +68,7 @@ const Add = () => {
             Category Type
           </label>
           <select
-            className="form-control input-wide" // 添加新的类
+            className="form-control input-wide"
             name="type"
             id="type"
             required
@@ -83,7 +83,7 @@ const Add = () => {
 
         <div className="button-container">
           {" "}
-          {/* 使用新添加的类 */}
+          {}
           <button type="submit" className="btn btn-outline-success btn-lg">
             Save
           </button>
