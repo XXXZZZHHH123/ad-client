@@ -29,8 +29,32 @@ const View_User = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:8080/Admin/delete/${id}`);
-    loadCategories();
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/Admin/delete/${id}`
+      );
+
+      if (response.status === 204) {
+        // 204 No Content
+        loadCategories();
+        alert("Delete successfully。");
+      } else if (response.status === 409) {
+        // 409 Conflict
+        alert(response.data);
+      } else if (response.status === 401) {
+        // 401 Unauthorized
+        alert("Unauthorized access, please log in first。");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        alert(`${error.response.data}`);
+      } else if (error.response) {
+        alert(`${error.response.data}`);
+      } else {
+        console.error("Delete failed:", error);
+        alert("Delete failed");
+      }
+    }
   };
 
   return (

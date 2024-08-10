@@ -28,27 +28,28 @@ const View_accounts = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/Admin/delete/${id}`,
+        `http://localhost:8080/Admin/deleteuser/${id}`,
         {
           validateStatus: (status) => {
-            return status === 200 || status === 409;
+            return status === 200 || status === 409 || status === 404;
           },
         }
       );
+
       if (response.status === 200) {
         loadUsers();
         alert("Delete successfully");
       } else if (response.status === 409) {
-        alert(response.data);
+        alert(response.data); // 显示具体的冲突错误消息
+      } else if (response.status === 404) {
+        alert("User not found.");
       }
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        alert(`Delete failed：${error.response.data}`);
+      if (error.response) {
+        alert(`Delete failed: ${error.response.data}`);
       } else {
         console.error("Delete failed:", error);
-        alert(
-          "The User's category and transaction are not empty and cannot be deleted."
-        );
+        alert("An unexpected error occurred. Please try again later.");
       }
     }
   };
