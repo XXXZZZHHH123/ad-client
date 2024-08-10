@@ -9,7 +9,7 @@ const BudgetUtilization = ({ userId }) => {
     useEffect(() => {
         const fetchBudgetUtilization = async () => {
             try {
-                const expenseResponse = await axios.get(`http://localhost:8080/User/total-spending-last-month/${userId}`);
+                const expenseResponse = await axios.get(`http://localhost:8080/User/total-spending-this-month/${userId}`);
                 const totalExpense = expenseResponse.data;
 
                 const budgetResponse = await axios.get(`http://localhost:8080/User/categories/total-budget/${userId}`);

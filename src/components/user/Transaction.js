@@ -320,9 +320,9 @@ const Transaction = () => {
                     style={{marginLeft: '8px'}}
                 >
                     <Option value={null}>All Amounts</Option>
-                    <Option value="low">Low</Option>
-                    <Option value="medium">Medium</Option>
-                    <Option value="high">High</Option>
+                    <Option value="low">0~50SGD</Option>
+                    <Option value="medium">50~200SGD</Option>
+                    <Option value="high">>200SGD</Option>
                 </Select>
                 <Button type="primary" onClick={() => {
                     setModalOpen(true);

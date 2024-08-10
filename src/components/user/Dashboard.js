@@ -5,8 +5,9 @@ import TotalBudget from "./TotalBudget"; // 确保路径正确
 import BudgetUtilization from "./BudgetUtilization"; // 确保路径正确
 import ExpenditureCategories from "./ExpenditureCategories";
 import ExpenseLineChart from "./ExpenseLineChart";
+import CategoryBarChart from "./CategoryBarChart";
 import "./Dashboard.css";
-import { useUser } from "../../UserContext"; // 确保你创建了一个对应的 CSS 文件
+import { useUser } from "../../UserContext";
 
 const Dashboard = () => {
   const [totalAmount, setTotalAmount] = useState(0.0);
@@ -18,7 +19,7 @@ const Dashboard = () => {
     const fetchTotalAmount = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/User/total-spending-last-month/${userId}`
+          `http://localhost:8080/User/total-spending-this-month/${userId}`
         );
         const totalAmount = response.data;
         setTotalAmount(totalAmount);
@@ -52,54 +53,73 @@ const Dashboard = () => {
   }, [userId]);
 
   return (
-    // <div className="dashboard-container">
-    //     <Row gutter={[16, 16]}>
-    //         <Col>
-    //             <TotalExpense amount={totalAmount} percentageChange={percentageChange}/>
-    //         </Col>
-    //         <Col>
-    //             <TotalBudget budget={totalBudget}/>
-    //         </Col>
-    //         <Col>
-    //             <BudgetUtilization userId={userId}/>
-    //         </Col>
-    //         <div style={{width: '50%'}}>
-    //             <ExpenseLineChart userId={userId}/>
-    //         </div>
-    //         <Col span={20}>
-    //             <ExpenditureCategories userId={userId}/>
-    //         </Col>
-    //
-    //     </Row>
-    // </div>
-    <div className="dashboard-container">
-      <div className="dashboard-left">
-        <div className="total">
+      // <div className="home-container">
+      //   <div className="chart-wrapper">
+      //     <div className="chart-container">
+      //       <div className="total-expense">
+      //         <TotalExpense
+      //             amount={totalAmount}
+      //             percentageChange={percentageChange}
+      //         />
+      //       </div>
+      //       <div className="total-budget">
+      //         <TotalBudget budget={totalBudget}/>
+      //       </div>
+      //       <div className="budget-utilization-container">
+      //         <BudgetUtilization userId={userId}/>
+      //       </div>
+      //     </div>
+      //     <div className="chart-container">
+      //       <div span={16} className="expenditure-categories">
+      //         <ExpenditureCategories userId={userId}/>
+      //       </div>
+      //     </div>
+      //   </div>
+      //
+      //   <div className="chart-wrapper">
+      //     <div className="chart-container">
+      //       <ExpenseLineChart width={800} height={300} userId={userId}/>
+      //     </div>
+      //     <div className="chart-container">
+      //       <CategoryBarChart width={800} height={300} userId={userId}/>
+      //     </div>
+      //   </div>
+      // </div>
+
+  <div className="home-container">
+    <div className="chart-wrapper">
+      <div className="chart-container-left-top">
+        <div className="budget-utilization-container">
+          <BudgetUtilization userId={userId}/>
+        </div>
+        <div>
           <div className="total-expense">
             <TotalExpense
-              amount={totalAmount}
-              percentageChange={percentageChange}
+                amount={totalAmount}
+                percentageChange={percentageChange}
             />
           </div>
           <div className="total-budget">
-            <TotalBudget budget={totalBudget} />
+            <TotalBudget budget={totalBudget}/>
           </div>
-          <div className="budget-utilization-container">
-            <BudgetUtilization userId={userId} />
-          </div>
-        </div>
-        <div span={16} className="expenditure-categories">
-          <ExpenditureCategories userId={userId} />
-        </div>
-      </div>
-      <div className="dashboard-right">
-        <h3>111111111</h3>
-        <div className="exoense-line-chart">
-          <ExpenseLineChart userId={userId} />
         </div>
       </div>
     </div>
-  );
+    <div className="chart-wrapper">
+      <div span={16} className="expenditure-categories">
+        <ExpenditureCategories userId={userId}/>
+      </div>
+    </div>
+
+    <div className="chart-wrapper">
+      <ExpenseLineChart width={800} height={300} userId={userId}/>
+    </div>
+    <div className="chart-wrapper">
+      <CategoryBarChart width={800} height={300} userId={userId}/>
+    </div>
+  </div>
+)
+  ;
 };
 
 export default Dashboard;

@@ -83,7 +83,7 @@ const ExpenditureCategories = ({ userId }) => {
       }}
     >
       <div style={{ width: "100%" }}>
-        <ResponsiveContainer width={600} height={400}>
+        <ResponsiveContainer width={660} height={380}>
           <PieChart>
             <Pie
               data={dataWithPercentage}

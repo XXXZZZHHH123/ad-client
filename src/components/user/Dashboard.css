@@ -1,3 +1,130 @@
+/*.card {*/
+/*    width: 180px;*/
+/*    height: 160px;*/
+/*    text-align: center;*/
+/*    margin: 10px;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.percentage-change {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    margin-top: 10px;*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*.dashboard-container {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    margin-top: 30px;*/
+/*    margin-left: 50px;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.line-chart-container {*/
+/*    display: flex;*/
+/*    justify-content: flex-end;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.budget-utilization-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: flex-start;*/
+/*    margin-top: -50px;*/
+/*}*/
+
+/*.description {*/
+/*    margin-top: 10px;*/
+/*    font-size: 14px;*/
+/*    color: #888;*/
+/*}*/
+
+/*.total{*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*}*/
+
+/*.dashboard-left{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*.expenditure-categories{*/
+/*    margin-left: 50px;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.dashboard-right{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: 1000px;*/
+/*    height: 600px;*/
+/*}*/
+
+/*.expense-line-chart{*/
+
+/*}*/
+
+/*.dashboard-right h3{*/
+/*    text-align: center;*/
+/*    margin-bottom: 100px;*/
+/*}*/
+
+/*.home-container {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: space-between;*/
+/*    background-color: rgb(235, 238, 247);*/
+/*    padding: 20px;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+/*.chart-wrapper {*/
+/*    width: 48%; !* 每个容器占父容器的48%宽度，确保两列布局 *!*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: space-between;*/
+/*    margin-bottom: 20px; !* 在行与行之间增加间距 *!*/
+/*}*/
+/*.chart-container {*/
+/*    width: 100%; !* 确保容器宽度占满父容器 *!*/
+/*    height: 400px; !* 提供足够的高度用于图表显示 *!*/
+/*    background-color: white;*/
+/*    border-radius: 20px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*    padding: 20px;*/
+/*    margin-bottom: 20px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    text-align: center;*/
+/*}*/
+
+
+/*.chart-container h3 {*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.left-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-around;*/
+/*    width: 50%; !* 根据需要调整宽度 *!*/
+/*}*/
+
+/*.right-container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 50%; !* 根据需要调整宽度 *!*/
+/*}*/
+
+
 .card {
     width: 180px;
     height: 160px;
@@ -30,10 +157,8 @@
 
 .budget-utilization-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    margin-top: -50px;
+    justify-content: center
 }
 
 .description {
@@ -71,4 +196,49 @@
 .dashboard-right h3{
     text-align: center;
     margin-bottom: 100px;
+}
+
+.home-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    background-color: rgb(235, 238, 247);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h3 {
+    margin-bottom: 20px;
+}
+
+.left-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 50%; /* 根据需要调整宽度 */
+}
+
+.right-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%; /* 根据需要调整宽度 */
+}
+
+.chart-container-left-top{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }

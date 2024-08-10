@@ -12,17 +12,37 @@ const BudgetSet = () => {
   const [form] = Form.useForm();
   const [currentCategory, setCurrentCategory] = useState(null);
   const { userId } = useUser(); // 动态获取当前用户的ID
+  const [SystemCategories, setSystemCategories] = useState([]);
 
   useEffect(() => {
     if (userId) {
+      loadSystemCategories();
       loadCategories();
     }
   }, [userId]);
 
+  const loadSystemCategories = async () => {
+    try {
+      const result = await axios.get(
+          "http://localhost:8080/Admin/categories/0",
+          {
+            validateStatus: () => true,
+          }
+      );
+      if (result.status === 200 && Array.isArray(result.data)) {
+        setSystemCategories(result.data);
+      } else {
+        console.error("Failed to load categories or invalid format");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
   const loadCategories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/User/budget/${userId}`
+          `http://localhost:8080/User/budget/${userId}`
       );
       setCategories(response.data);
     } catch (error) {
@@ -33,12 +53,12 @@ const BudgetSet = () => {
   const createCategory = async (values) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/User/budget/add/${userId}`,
-        {
-          name: values.category,
-          budget: values.amount,
-          type: 1,
-        }
+          `http://localhost:8080/User/budget/add/${userId}`,
+          {
+            name: values.category,
+            budget: values.amount,
+            type: 1,
+          }
       );
       message.success("Category created successfully");
       setCategories((prevCategories) => [...prevCategories, response.data]);
@@ -51,18 +71,18 @@ const BudgetSet = () => {
   const updateCategory = async (values) => {
     try {
       await axios.put(
-        `http://localhost:8080/User/budget/update/${currentCategory.id}`,
-        {
-          budget: values.amount,
-        }
+          `http://localhost:8080/User/budget/update/${currentCategory.id}`,
+          {
+            budget: values.amount,
+          }
       );
       message.success("Category updated successfully");
       setCategories((prevCategories) =>
-        prevCategories.map((cat) =>
-          cat.id === currentCategory.id
-            ? { ...cat, budget: values.amount }
-            : cat
-        )
+          prevCategories.map((cat) =>
+              cat.id === currentCategory.id
+                  ? { ...cat, budget: values.amount }
+                  : cat
+          )
       );
     } catch (error) {
       console.error("Error updating category:", error);
@@ -120,17 +140,17 @@ const BudgetSet = () => {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
-        <span>
+          <span>
           <Button
-            type="primary"
-            icon={<FaEdit />}
-            onClick={() => handleEdit(record)}
-            style={{ marginRight: 8 }}
+              type="primary"
+              icon={<FaEdit />}
+              onClick={() => handleEdit(record)}
+              style={{ marginRight: 8 }}
           />
           <Button
-            type="danger"
-            icon={<FaTrashAlt />}
-            onClick={() => handleDelete(record.id)}
+              type="danger"
+              icon={<FaTrashAlt />}
+              onClick={() => handleDelete(record.id)}
           />
         </span>
       ),
@@ -204,73 +224,73 @@ const BudgetSet = () => {
   };
 
   return (
-    <div className="content">
-      <h2>Budget Planner(Monthly)</h2>
-      <Button
-        type="primary"
-        onClick={() => {
-          setModalOpen(true);
-          setCurrentCategory(null);
-        }}
-      >
-        Add Budget
-      </Button>
-      <Table dataSource={categories} columns={columns} rowKey="id" />
+      <div className="content">
+        <h2>Budget Planner(Monthly)</h2>
+        <Button
+            type="primary"
+            onClick={() => {
+              setModalOpen(true);
+              setCurrentCategory(null);
+            }}
+        >
+          Add Budget
+        </Button>
+        <Table dataSource={[...SystemCategories, ...categories]} columns={columns} rowKey="id" />
 
-      <Modal
-        title={currentCategory ? "Edit Budget" : "Add Budget"}
-        open={modalOpen}
-        onCancel={() => {
-          setModalOpen(false);
-          setCurrentCategory(null);
-          form.resetFields();
-        }}
-        onOk={() => form.submit()}
-        okText="Save"
-      >
-        <Form layout="vertical" form={form} onFinish={handleSubmit}>
-          {!currentCategory && (
+        <Modal
+            title={currentCategory ? "Edit Budget" : "Add Budget"}
+            open={modalOpen}
+            onCancel={() => {
+              setModalOpen(false);
+              setCurrentCategory(null);
+              form.resetFields();
+            }}
+            onOk={() => form.submit()}
+            okText="Save"
+        >
+          <Form layout="vertical" form={form} onFinish={handleSubmit}>
+            {!currentCategory && (
+                <Form.Item
+                    label="Enter Budget Category"
+                    name="category"
+                    rules={[{ required: true, message: "Please enter a category!" }]}
+                >
+                  <Input />
+                </Form.Item>
+            )}
             <Form.Item
-              label="Enter Budget Category"
-              name="category"
-              rules={[{ required: true, message: "Please enter a category!" }]}
+                label="Set Budget Amount"
+                name="amount"
+                rules={[{ required: true, message: "Please enter the amount!" }]}
             >
-              <Input />
+              <Input type="number" />
             </Form.Item>
-          )}
-          <Form.Item
-            label="Set Budget Amount"
-            name="amount"
-            rules={[{ required: true, message: "Please enter the amount!" }]}
-          >
-            <Input type="number" />
-          </Form.Item>
-        </Form>
-      </Modal>
+          </Form>
+        </Modal>
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <PieChart width={410} height={410}>
-          <Pie
-            data={categories}
-            dataKey="budget"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={150}
-            fill="#8884d8"
-            label
-          >
-            {categories.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <PieChart width={410} height={410}>
+            <Pie
+                data={categories}
+                dataKey="budget"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={150}
+                fill="#8884d8"
+                label
+            >
+              {categories.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={getCategoryColor(index)} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
 
-        <WordCloud {...wordCloudConfig} />
+          <WordCloud {...wordCloudConfig} />
+        </div>
       </div>
-    </div>
   );
 };
 
