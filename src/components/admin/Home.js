@@ -245,7 +245,7 @@ const Home = () => {
           >
             View budgets' details
           </Button>
-          <PieChart width={400} height={410}>
+          <PieChart width={500} height={410}>
             <Pie
               data={userCategories}
               dataKey="budget"

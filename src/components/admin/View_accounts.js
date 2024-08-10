@@ -26,8 +26,31 @@ const View_accounts = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:8080/Admin/deleteuser/${id}`);
-    loadUsers();
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/Admin/delete/${id}`,
+        {
+          validateStatus: (status) => {
+            return status === 200 || status === 409;
+          },
+        }
+      );
+      if (response.status === 200) {
+        loadUsers();
+        alert("Delete successfully");
+      } else if (response.status === 409) {
+        alert(response.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        alert(`Delete failed：${error.response.data}`);
+      } else {
+        console.error("Delete failed:", error);
+        alert(
+          "The User's category and transaction are not empty and cannot be deleted."
+        );
+      }
+    }
   };
 
   return (

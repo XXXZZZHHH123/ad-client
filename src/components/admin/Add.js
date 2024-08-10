@@ -22,7 +22,7 @@ const Add = () => {
       await axios.post("http://localhost:8080/Admin/add/1", category, {
         withCredentials: true,
       });
-      navigate("/admin/view-categories-system");
+      navigate("/admin/view-categories_all");
     } catch (error) {
       console.error("Error saving category:", error);
     }
