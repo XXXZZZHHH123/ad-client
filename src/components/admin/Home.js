@@ -163,7 +163,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <div className="chart-wrapper">
+      <div className="chart-wrapper1">
         <div className="chart-container">
           <h3>System defined budgets</h3>
           <Button
@@ -173,7 +173,7 @@ const Home = () => {
           >
             View budgets' details
           </Button>
-          <PieChart width={400} height={410}>
+          <PieChart width={400} height={450}>
             <Pie
               data={systemCategories}
               dataKey="budget"
@@ -235,7 +235,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="chart-wrapper">
+      <div className="chart-wrapper1">
         <div className="chart-container">
           <h3>User defined budgets</h3>
           <Button
@@ -245,7 +245,7 @@ const Home = () => {
           >
             View budgets' details
           </Button>
-          <PieChart width={500} height={410}>
+          <PieChart width={500} height={450}>
             <Pie
               data={userCategories}
               dataKey="budget"
