@@ -14,7 +14,7 @@ const CategoriesView = () => {
 
   const loadCategories = async () => {
     try {
-      const result = await axios.get("http://localhost:8080/Admin/categories", {
+      const result = await axios.get("http://3.227.89.83:8080/Admin/categories", {
         withCredentials: true,
       });
       if (result.status === 200 && Array.isArray(result.data)) {
@@ -32,7 +32,7 @@ const CategoriesView = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/Admin/delete/${id}`
+        `http://3.227.89.83:8080/Admin/delete/${id}`
       );
 
       if (response.status === 204) {

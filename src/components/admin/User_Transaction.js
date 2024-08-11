@@ -13,7 +13,7 @@ const User_Transaction = () => {
   const loadTransactions = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:8080/Admin/transaction_user/${id}`,
+        `http://3.227.89.83:8080/Admin/transaction_user/${id}`,
         {
           validateStatus: () => true,
         }

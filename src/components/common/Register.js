@@ -31,7 +31,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/register",
+        "http://3.227.89.83:8080/api/register",
         user
       );
       if (response.status === 200) {

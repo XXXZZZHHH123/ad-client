@@ -16,7 +16,7 @@ const Edit_User = () => {
   }, []);
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:8080/Admin/user/${id}`);
+    const result = await axios.get(`http://3.227.89.83:8080/Admin/user/${id}`);
     setUser(result.data);
   };
 
@@ -29,7 +29,7 @@ const Edit_User = () => {
     const { username, password, email } = user;
     try {
       const response = await axios.put(
-        `http://localhost:8080/Admin/updateUser/${id}`,
+        `http://3.227.89.83:8080/Admin/updateUser/${id}`,
         { username, password, email },
         {
           headers: {

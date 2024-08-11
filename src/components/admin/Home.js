@@ -35,7 +35,7 @@ const Home = () => {
   const loadSystemCategories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/Admin/categories/${SystemcategoryType}`
+        `http://3.227.89.83:8080/Admin/categories/${SystemcategoryType}`
       );
       setSystemCategories(response.data);
     } catch (error) {
@@ -46,7 +46,7 @@ const Home = () => {
   const loadUserCategories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/Admin/categories/${UsercategoryType}`
+        `http://3.227.89.83:8080/Admin/categories/${UsercategoryType}`
       );
       setUserCategories(response.data);
     } catch (error) {
@@ -57,7 +57,7 @@ const Home = () => {
   const loadAverageAmounts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/Admin/average-amount-per-category`
+        `http://3.227.89.83:8080/Admin/average-amount-per-category`
       );
       const averageAmountsData = response.data;
 
@@ -76,7 +76,7 @@ const Home = () => {
   const loadTopCategories = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/Admin/top-categories"
+        "http://3.227.89.83:8080/Admin/top-categories"
       );
       const topCategoriesData = response.data;
 

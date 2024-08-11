@@ -19,13 +19,13 @@ const Dashboard = () => {
     const fetchTotalAmount = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/User/total-spending-this-month/${userId}`
+          `http://3.227.89.83:8080/User/total-spending-this-month/${userId}`
         );
         const totalAmount = response.data;
         setTotalAmount(totalAmount);
 
         const previousMonthResponse = await axios.get(
-          `http://localhost:8080/User/total-spending-previous-month/${userId}`
+          `http://3.227.89.83:8080/User/total-spending-previous-month/${userId}`
         );
         const previousMonthAmount = previousMonthResponse.data;
 
@@ -40,7 +40,7 @@ const Dashboard = () => {
     const fetchTotalBudget = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/User/categories/total-budget/${userId}`
+          `http://3.227.89.83:8080/User/categories/total-budget/${userId}`
         );
         setTotalBudget(response.data);
       } catch (error) {
