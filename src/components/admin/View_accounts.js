@@ -12,7 +12,7 @@ const View_accounts = () => {
 
   const loadUsers = async () => {
     try {
-      const result = await axios.get("http://localhost:8080/Admin/users", {
+      const result = await axios.get("http://3.227.89.83:8080/Admin/users", {
         validateStatus: () => true,
       });
       if (result.status === 200 && Array.isArray(result.data)) {
@@ -28,7 +28,7 @@ const View_accounts = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/Admin/deleteuser/${id}`,
+        `http://3.227.89.83:8080/Admin/deleteuser/${id}`,
         {
           validateStatus: (status) => {
             return status === 200 || status === 409 || status === 404;

@@ -31,7 +31,7 @@ const Transaction = () => {
 
     const loadTransactions = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/User/transaction/${userId}`);
+            const response = await axios.get(`http://3.227.89.83:8080/User/transaction/${userId}`);
             const data = response.data.map(transaction => ({
                 ...transaction,
                 created_at: moment(transaction.created_at).format('YYYY-MM-DD')
@@ -45,7 +45,7 @@ const Transaction = () => {
 
     const loadCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/User/budget/${userId}`);
+            const response = await axios.get(`http://3.227.89.83:8080/User/budget/${userId}`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -173,13 +173,13 @@ const Transaction = () => {
 
             let response;
             if (currentTransaction) {
-                response = await axios.put(`http://localhost:8080/User/transaction/update/${currentTransaction.id}`, transactionData);
+                response = await axios.put(`http://3.227.89.83:8080/User/transaction/update/${currentTransaction.id}`, transactionData);
                 message.success('Transaction updated successfully');
                 setTransactions(prevTransactions =>
                     prevTransactions.map(tx => (tx.id === currentTransaction.id ? response.data : tx))
                 );
             } else {
-                response = await axios.post(`http://localhost:8080/User/transaction/add/${userId}`, transactionData);
+                response = await axios.post(`http://3.227.89.83:8080/User/transaction/add/${userId}`, transactionData);
                 message.success('Transaction created successfully');
                 setTransactions(prevTransactions => [...prevTransactions, response.data]);
             }
@@ -208,7 +208,7 @@ const Transaction = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/User/transaction/delete/${id}`);
+            await axios.delete(`http://3.227.89.83:8080/User/transaction/delete/${id}`);
             message.success('Transaction deleted successfully');
             loadTransactions();
         } catch (error) {

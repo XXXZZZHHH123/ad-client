@@ -8,7 +8,7 @@ const CategoryBarChart = ({ userId }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/Admin/transaction_user/${userId}`);
+                const response = await axios.get(`http://3.227.89.83:8080/Admin/transaction_user/${userId}`);
                 const transactions = response.data;
 
                 const now = new Date();

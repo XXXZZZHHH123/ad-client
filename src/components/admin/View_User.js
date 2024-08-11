@@ -13,7 +13,7 @@ const View_User = () => {
   const loadCategories = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:8080/Admin/categories/1",
+        "http://3.227.89.83:8080/Admin/categories/1",
         {
           validateStatus: () => true,
         }
@@ -31,7 +31,7 @@ const View_User = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/Admin/delete/${id}`
+        `http://3.227.89.83:8080/Admin/delete/${id}`
       );
 
       if (response.status === 204) {

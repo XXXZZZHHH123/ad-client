@@ -19,7 +19,7 @@ const Add = () => {
   const saveCategory = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/Admin/add/1", category, {
+      await axios.post("http://3.227.89.83:8080/Admin/add/1", category, {
         withCredentials: true,
       });
       navigate("/admin/view-categories_all");

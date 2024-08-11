@@ -35,7 +35,7 @@ const ExpenditureCategories = ({ userId }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/User/transaction/${userId}`
+          `http://3.227.89.83:8080/User/transaction/${userId}`
         );
         const transactions = response.data;
 

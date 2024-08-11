@@ -17,7 +17,7 @@ const Edit = () => {
 
   const loadCategories = async () => {
     const result = await axios.get(
-      `http://localhost:8080/Admin/category/${id}`
+      `http://3.227.89.83:8080/Admin/category/${id}`
     );
     setCategory(result.data);
   };
@@ -33,7 +33,7 @@ const Edit = () => {
     const { name, budget, type } = category;
     try {
       const response = await axios.put(
-        `http://localhost:8080/Admin/update/${id}`,
+        `http://3.227.89.83:8080/Admin/update/${id}`,
         JSON.stringify({ name, budget: parseFloat(budget), type }),
         {
           headers: {

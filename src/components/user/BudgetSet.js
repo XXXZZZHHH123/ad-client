@@ -24,7 +24,7 @@ const BudgetSet = () => {
   const loadSystemCategories = async () => {
     try {
       const result = await axios.get(
-          "http://localhost:8080/Admin/categories/0",
+          "http://3.227.89.83:8080/Admin/categories/0",
           {
             validateStatus: () => true,
           }
@@ -42,7 +42,7 @@ const BudgetSet = () => {
   const loadCategories = async () => {
     try {
       const response = await axios.get(
-          `http://localhost:8080/User/budget/${userId}`
+          `http://3.227.89.83:8080/User/budget/${userId}`
       );
       setCategories(response.data);
     } catch (error) {
@@ -53,7 +53,7 @@ const BudgetSet = () => {
   const createCategory = async (values) => {
     try {
       const response = await axios.post(
-          `http://localhost:8080/User/budget/add/${userId}`,
+          `http://3.227.89.83:8080/User/budget/add/${userId}`,
           {
             name: values.category,
             budget: values.amount,
@@ -71,7 +71,7 @@ const BudgetSet = () => {
   const updateCategory = async (values) => {
     try {
       await axios.put(
-        `http://localhost:8080/User/budget/update/${currentCategory.id}`,
+        `http://3.227.89.83:8080/User/budget/update/${currentCategory.id}`,
         {
           budget: values.amount,
         }
@@ -116,7 +116,7 @@ const BudgetSet = () => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:8080/User/budget/delete/${id}`);
+      await axios.delete(`http://3.227.89.83:8080/User/budget/delete/${id}`);
       message.success("Category deleted successfully");
       loadCategories();
     } catch (error) {
