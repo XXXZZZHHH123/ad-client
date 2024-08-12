@@ -44,7 +44,7 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to={"/user/transaction"}>
-                Transaction
+                Expenses
               </Link>
             </li>
             <li className="nav-item ms-auto">

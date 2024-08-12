@@ -268,7 +268,7 @@ const Transaction = () => {
 
     return (
         <div className="content">
-            <h2>Transaction Manager</h2>
+            <h2>Expense Manager</h2>
             <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '16px'}}>
                 <Button
                     onClick={() => handleFilterClick('period', 'week')}
@@ -327,12 +327,12 @@ const Transaction = () => {
                 <Button type="primary" onClick={() => {
                     setModalOpen(true);
                     setCurrentTransaction(null);
-                }} style={{marginLeft: 'auto'}}>Add Transaction</Button>
+                }} style={{marginLeft: 'auto'}}>Add Expense</Button>
             </div>
             <Table dataSource={filteredTransactions} columns={columns} rowKey="id"/>
 
             <Modal
-                title={currentTransaction ? "Edit Transaction" : "Add Transaction"}
+                title={currentTransaction ? "Edit Expense" : "Add Expense"}
                 open={modalOpen}
                 onCancel={() => {
                     setModalOpen(false);

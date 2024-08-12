@@ -37,7 +37,7 @@ const User_Transaction = () => {
       <table className="table table-bordered">
         <thead>
           <tr className="text-center">
-            <th>Transaction ID</th>
+            <th>Expense ID</th>
             <th>Category Name</th>
             <th>Budget</th>
             <th>Amount</th>

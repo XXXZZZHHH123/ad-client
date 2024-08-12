@@ -64,7 +64,7 @@ const View_accounts = () => {
             <th>Password</th>
             <th>Email</th>
             <th>Create time</th>
-            <th>Transactions</th>
+            <th>Expenses</th>
             <th colSpan="2">Actions</th>
           </tr>
         </thead>

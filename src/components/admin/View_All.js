@@ -75,7 +75,7 @@ const CategoriesView = () => {
             <th>Amount</th>
             <th>Type</th>
             <th>Defined by</th>
-            <th>Transactions</th>
+            <th>Expenses</th>
             <th colSpan="2">Actions</th>
           </tr>
         </thead>
