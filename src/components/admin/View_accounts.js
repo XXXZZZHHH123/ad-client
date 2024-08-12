@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 import { FaTrashAlt, FaEye, FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -54,6 +55,13 @@ const View_accounts = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const formattedDate = moment(dateString).isValid()
+      ? moment(dateString).format("DD-MM-YYYY")
+      : "/";
+    return formattedDate;
+  };
+
   return (
     <section>
       <table className="table table-bordered table-hover shadow">
@@ -78,7 +86,9 @@ const View_accounts = () => {
               <td style={{ verticalAlign: "middle" }}>{user.username}</td>
               <td style={{ verticalAlign: "middle" }}>{user.password}</td>
               <td style={{ verticalAlign: "middle" }}>{user.email}</td>
-              <td style={{ verticalAlign: "middle" }}>{user.created_at}</td>
+              <td style={{ verticalAlign: "middle" }}>
+                {formatDate(user.created_at)}
+              </td>
               <td className="mx-2" style={{ verticalAlign: "middle" }}>
                 <Link
                   to={`/admin/user-transaction/${user.id}`}

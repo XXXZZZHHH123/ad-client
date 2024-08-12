@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./AdminHome.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -20,10 +21,10 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white mb-5 w-100 custom-navbar">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white mb-5 w-100 custom-navbar-red">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/admin"}>
-          Admin
+          SmartBook
         </Link>
         <button
           className="navbar-toggler"
@@ -87,7 +88,15 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item ms-auto">
-              <button className="btn btn-danger" onClick={handleLogout}>
+              <button
+                className="btn"
+                style={{
+                  backgroundColor: "#ffffff", // 白色背景
+                  color: "#ff0000", // 红色字体
+                  border: "2px solid #ff0000", // 红色边框
+                }}
+                onClick={handleLogout}
+              >
                 Logout
               </button>
             </li>

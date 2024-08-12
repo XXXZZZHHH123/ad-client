@@ -165,13 +165,13 @@ const Home = () => {
     <div className="home-container">
       <div className="chart-wrapper1">
         <div className="chart-container">
-          <h3>System defined budgets</h3>
+          <h3>System Defined Budgets</h3>
           <Button
             type="primary"
             onClick={handleViewSystemDetails}
             className="button"
           >
-            View budgets' details
+            View Budgets' Details
           </Button>
           <PieChart width={400} height={450}>
             <Pie
@@ -204,13 +204,13 @@ const Home = () => {
         </div>
 
         <div className="chart-container">
-          <h3>Budget amount / Average amount</h3>
+          <h3>Budget Amount / Average Amount</h3>
           <Button
             type="primary"
             onClick={handleViewTransaction}
             className="button"
           >
-            View transactions
+            View Transactions
           </Button>
           <BarChart width={700} height={300} data={mergedData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -237,13 +237,13 @@ const Home = () => {
 
       <div className="chart-wrapper1">
         <div className="chart-container">
-          <h3>User defined budgets</h3>
+          <h3>User Defined Budgets</h3>
           <Button
             type="primary"
             onClick={handleViewUserDetails}
             className="button"
           >
-            View budgets' details
+            View Budgets' Details
           </Button>
           <PieChart width={500} height={450}>
             <Pie
@@ -276,13 +276,13 @@ const Home = () => {
         </div>
 
         <div className="chart-container">
-          <h3>Top categories by usage</h3>
+          <h3>Top Categories By Usage</h3>
           <Button
             type="primary"
             onClick={handleViewTransaction}
             className="button"
           >
-            View transactions
+            View Transactions
           </Button>
           <BarChart width={700} height={300} data={topCategories}>
             <CartesianGrid strokeDasharray="3 3" />

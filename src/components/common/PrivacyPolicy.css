@@ -6,11 +6,11 @@ body {
   background-color: rgb(235, 238, 247);
 }
 .container {
-  max-width: 800px;
+  max-width: 1500px;
   margin: auto;
   background: white;
-  padding: 0.1px;
-  border-radius: 0.1px;
+  padding: 2rem;
+  border-radius: 1.5rem;
   box-shadow: 0 0 0.1px rgba(0, 0, 0, 0.1);
 }
 h1,
