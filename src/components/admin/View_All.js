@@ -204,6 +204,7 @@ const CategoriesView = () => {
           />
         </span>
       ),
+      width: 300,
     },
   ];
 
