@@ -8,21 +8,21 @@
 }
 
 .chart-wrapper {
-  width: 48%; /* 每个容器占父容器的48%宽度，确保两列布局 */
+  width: 48%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px; /* 在行与行之间增加间距 */
+  margin-bottom: 20px;
 }
 
 .chart-container {
-  width: 100%; /* 容器占满chart-wrapper的宽度 */
+  width: 100%;
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin-bottom: 20px; /* 在chart-container之间添加垂直间距 */
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,16 +47,16 @@
 }
 
 .button {
-  background-color: #fb2a2a; /* 设置按钮的背景颜色为红色 */
-  color: #ffffff; /* 设置按钮的字体颜色为白色 */
-  border: none; /* 去除按钮的边框 */
-  padding: 10px 20px; /* 添加按钮的内边距 */
-  border-radius: 5px; /* 添加按钮的圆角效果 */
-  cursor: pointer; /* 鼠标悬停时显示为指针 */
+  background-color: #fb2a2a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .button:hover {
-  background-color: #cc0000; /* 悬停时将按钮背景颜色变为深红色 */
+  background-color: #cc0000;
 }
 
 .description {
@@ -68,31 +68,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%; /* 调整宽度以适应表单内容 */
+  width: 30%;
   padding: 20px;
-  background-color: white; /* 设置背景颜色为白色 */
-  border-radius: 20px; /* 添加圆角 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影以实现浮动效果 */
-  margin: 0 auto; /* 使容器水平居中 */
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
 }
 
 .button-container {
   display: flex;
   justify-content: space-between;
-  width: 100%; /* 确保容器占满可用宽度 */
-  margin-top: 20px; /* 为按钮容器添加一些顶部间距 */
+  width: 100%;
+  margin-top: 20px;
 }
 
 .button-container .btn {
   flex: 1;
-  margin: 0 10px; /* 为按钮添加左右间距，防止重叠 */
+  margin: 0 10px;
 }
 
 .input-wide {
-  width: 100%; /* 使输入框占满父容器的宽度 */
+  width: 100%;
 }
 .input-group .form-control {
-  width: 50%; /* 确保输入框占满父容器的宽度 */
+  width: 50%;
 }
 
 .chart-wrapper {
@@ -105,23 +105,23 @@
 }
 
 .custom-navbar-red {
-  background-color: #fb2a2a !important; /* 设置背景颜色为红色 */
-  color: #ffffff !important; /* 设置字体颜色为白色（根据需求） */
+  background-color: #fb2a2a !important;
+  color: #ffffff !important;
 }
 
 .custom-navbar-red .navbar-brand,
 .custom-navbar-red .nav-link {
-  color: #ffffff !important; /* 设置链接和品牌名称的颜色 */
+  color: #ffffff !important;
 }
 
 .custom-navbar-red .dropdown-menu {
-  background-color: #ff0000; /* 设置下拉菜单的背景颜色 */
+  background-color: #ff0000;
 }
 
 .custom-navbar-red .dropdown-item {
-  color: #ffffff !important; /* 设置下拉菜单项的颜色 */
+  color: #ffffff !important;
 }
 
 .custom-navbar-red .dropdown-item:hover {
-  background-color: #cc0000; /* 设置下拉菜单项的悬停背景颜色 */
+  background-color: #cc0000;
 }

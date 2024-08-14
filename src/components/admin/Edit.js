@@ -41,6 +41,7 @@ const Edit = () => {
           },
         }
       );
+      console.log("name" + name);
       navigate("/admin/view-categories_all");
     } catch (error) {
       if (error.response && error.response.data) {

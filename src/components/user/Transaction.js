@@ -30,7 +30,7 @@ const Transaction = () => {
     category: "",
     amount: null,
   });
-  const [activeFilter, setActiveFilter] = useState(""); // 用于存储当前激活的筛选按钮
+  const [activeFilter, setActiveFilter] = useState("");
   const { userId } = useUser();
 
   useEffect(() => {
@@ -142,7 +142,7 @@ const Transaction = () => {
 
     if (type === "period") {
       newFilters.period = filters.period === value ? "" : value;
-      newFilters.customRange = []; // 清空自定义时间范围
+      newFilters.customRange = [];
       setActiveFilter(newFilters.period === "" ? "" : value);
     } else if (type === "category") {
       newFilters.category = filters.category === value ? "" : value;
@@ -183,7 +183,7 @@ const Transaction = () => {
 
       const transactionData = {
         category: selectedCategory,
-        created_at: moment(orderdate).format("YYYY-MM-DD"), // 确保日期格式一致
+        created_at: moment(orderdate).format("YYYY-MM-DD"),
         ...otherValues,
       };
 
@@ -211,7 +211,6 @@ const Transaction = () => {
         ]);
       }
 
-      // 重新加载交易数据
       await loadTransactions();
       setModalOpen(false);
       form.resetFields();
@@ -227,7 +226,7 @@ const Transaction = () => {
     form.setFieldsValue({
       categoryName: transaction.category.name,
       amount: transaction.amount,
-      orderdate: moment(transaction.created_at).format("YYYY-MM-DD"), // 使用 moment 格式化日期
+      orderdate: moment(transaction.created_at).format("YYYY-MM-DD"),
       description: transaction.description,
     });
     setModalOpen(true);
@@ -259,13 +258,13 @@ const Transaction = () => {
       title: "Order Date",
       dataIndex: "created_at",
       key: "orderdate",
-      render: (text) => (text ? moment(text).format("YYYY-MM-DD") : ""), // 格式化为 年-月-日
+      render: (text) => (text ? moment(text).format("YYYY-MM-DD") : ""),
     },
     {
       title: "Update Time",
       dataIndex: "updated_at",
       key: "updateTime",
-      render: (text) => (text ? moment(text).format("YYYY-MM-DD HH:mm") : ""), // 格式化为 年-月-日 时:分
+      render: (text) => (text ? moment(text).format("YYYY-MM-DD HH:mm") : ""),
     },
     {
       title: "Description",
@@ -336,7 +335,6 @@ const Transaction = () => {
           style={{ marginLeft: "8px" }}
         />
 
-        {/* 类别筛选 */}
         <Select
           onChange={(value) => handleFilterClick("category", value)}
           value={filters.category}
@@ -351,7 +349,6 @@ const Transaction = () => {
           ))}
         </Select>
 
-        {/* 金额筛选 */}
         <Select
           onChange={(value) => handleFilterClick("amount", value)}
           value={filters.amount}

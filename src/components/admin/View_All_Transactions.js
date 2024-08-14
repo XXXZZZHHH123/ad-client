@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { CSVLink } from "react-csv";
 import axios from "axios";
-import { FaEye, FaTrashAlt, FaEdit } from "react-icons/fa";
 import {
   Table,
   Button,
@@ -12,9 +12,8 @@ import {
   DatePicker,
 } from "antd";
 
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import moment from "moment";
-import { useUser } from "../../UserContext";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -34,6 +33,15 @@ const View_Transactions = () => {
     category: "",
     amount: null,
   });
+  const headers = [
+    { label: "Transaction ID", key: "id" },
+    { label: "Username", key: "user.username" },
+    { label: "Category", key: "category.name" },
+    { label: "Amount(SGD)", key: "amount" },
+    { label: "Order Date", key: "created_at" },
+    { label: "Update Time", key: "updated_at" },
+    { label: "Description", key: "description" },
+  ];
 
   const { Search } = Input;
   const [activeFilter, setActiveFilter] = useState("");
@@ -164,7 +172,7 @@ const View_Transactions = () => {
 
       const transactionData = {
         category: selectedCategory,
-        created_at: moment(orderdate).format("YYYY-MM-DD"), // 确保日期格式一致
+        created_at: moment(orderdate).format("YYYY-MM-DD"),
         ...otherValues,
       };
 
@@ -182,7 +190,6 @@ const View_Transactions = () => {
         );
       }
 
-      // 重新加载交易数据
       await loadTransactions();
       setModalOpen(false);
       form.resetFields();
@@ -198,14 +205,14 @@ const View_Transactions = () => {
 
     if (type === "period") {
       newFilters.period = filters.period === value ? "" : value;
-      newFilters.customRange = []; // 清空自定义时间范围
+      newFilters.customRange = [];
       setActiveFilter(newFilters.period === "" ? "" : value);
     } else if (type === "category") {
       newFilters.category = filters.category === value ? "" : value;
     } else if (type === "amount") {
       newFilters.amount = filters.amount === value ? null : value;
     } else if (type === "username") {
-      newFilters.username = value; // 设置username过滤器
+      newFilters.username = value;
     }
 
     setFilters(newFilters);
@@ -225,27 +232,6 @@ const View_Transactions = () => {
     }
     setFilters(newFilters);
     filterTransactions(newFilters);
-  };
-  const handleEdit = (transaction) => {
-    setCurrentTransaction(transaction);
-    form.setFieldsValue({
-      categoryName: transaction.category.name,
-      amount: transaction.amount,
-      orderdate: moment(transaction.created_at).format("YYYY-MM-DD"), // 使用 moment 格式化日期
-      description: transaction.description,
-    });
-    setModalOpen(true);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8080/User/transaction/delete/${id}`);
-      message.success("Transaction deleted successfully");
-      loadTransactions();
-    } catch (error) {
-      console.error("Error deleting transaction:", error);
-      message.error("Error deleting transaction");
-    }
   };
 
   const columns = [
@@ -341,13 +327,11 @@ const View_Transactions = () => {
           onChange={handleDateRangeChange}
           style={{ marginLeft: "8px" }}
         />
-
         <Search
           placeholder="Search by Username"
           onSearch={(value) => handleFilterClick("username", value)}
           style={{ width: 200, marginLeft: "8px" }}
         />
-        {/* 类别筛选 */}
         <Select
           onChange={(value) => handleFilterClick("category", value)}
           value={filters.category}
@@ -362,7 +346,6 @@ const View_Transactions = () => {
           ))}
         </Select>
 
-        {/* 金额筛选 */}
         <Select
           onChange={(value) => handleFilterClick("amount", value)}
           value={filters.amount}
@@ -374,6 +357,16 @@ const View_Transactions = () => {
           <Option value="medium">50~200SGD</Option>
           <Option value="high">200SGD</Option>
         </Select>
+        <CSVLink
+          data={transactions}
+          headers={headers}
+          filename={"transactions.csv"}
+          className="btn btn-primary"
+          target="_blank"
+          style={{ marginLeft: "auto" }}
+        >
+          Export CSV
+        </CSVLink>
       </div>
       <Table dataSource={filteredTransactions} columns={columns} rowKey="id" />
 

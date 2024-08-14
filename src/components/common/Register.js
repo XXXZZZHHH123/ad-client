@@ -36,7 +36,7 @@ const Register = () => {
       );
       if (response.status === 200) {
         setMessage("Registration successful");
-        navigate("/login"); // 跳转到登录页面
+        navigate("/login");
       } else {
         setMessage(response.data);
       }

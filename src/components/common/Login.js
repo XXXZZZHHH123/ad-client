@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../UserContext"; // 导入 useUser 钩子
+import { useUser } from "../../UserContext";
 import "../../style.css";
 
 const Login = () => {
@@ -21,13 +21,13 @@ const Login = () => {
           password,
         },
         { withCredentials: true }
-      ); // Ensure cookies are sent with the request
+      );
 
       if (response.status === 200) {
         const user = response.data;
         sessionStorage.setItem("user", JSON.stringify(user));
         setUserId(user.id);
-        // Navigate based on user role
+
         if (user.role === 0) {
           navigate("/admin");
         } else {

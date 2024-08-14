@@ -35,14 +35,11 @@ const CategoriesView = () => {
       );
 
       if (response.status === 204) {
-        // 204 No Content
         loadCategories();
         alert("Delete successfully。");
       } else if (response.status === 409) {
-        // 409 Conflict
         alert(response.data);
       } else if (response.status === 401) {
-        // 401 Unauthorized
         alert("Unauthorized access, please log in first。");
       }
     } catch (error) {

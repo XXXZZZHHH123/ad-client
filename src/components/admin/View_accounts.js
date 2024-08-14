@@ -41,7 +41,7 @@ const View_accounts = () => {
         loadUsers();
         alert("Delete successfully");
       } else if (response.status === 409) {
-        alert(response.data); // 显示具体的冲突错误消息
+        alert(response.data);
       } else if (response.status === 404) {
         alert("User not found.");
       }

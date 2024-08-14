@@ -39,43 +39,10 @@ const NavBar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100">
-            <li className="nav-item dropdown">
-              <Link
-                className="nav-link dropdown-toggle"
-                to="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+            <li className="nav-item">
+              <Link className="nav-link" to={"/admin/view-categories_all"}>
                 Budgets
               </Link>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to={"/admin/view-categories_all"}
-                  >
-                    Budgets (All)
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to={"/admin/view-categories-system"}
-                  >
-                    Budgets (System)
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to={"/admin/view-categories-user"}
-                  >
-                    Budgets (User)
-                  </Link>
-                </li>
-              </ul>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to={"/admin/transactions"}>
@@ -91,9 +58,9 @@ const NavBar = () => {
               <button
                 className="btn"
                 style={{
-                  backgroundColor: "#ffffff", // 白色背景
-                  color: "#ff0000", // 红色字体
-                  border: "2px solid #ff0000", // 红色边框
+                  backgroundColor: "#ffffff",
+                  color: "#ff0000",
+                  border: "2px solid #ff0000",
                 }}
                 onClick={handleLogout}
               >

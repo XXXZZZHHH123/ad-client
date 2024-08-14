@@ -1,12 +1,21 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaTrashAlt, FaEye, FaEdit, FaPlus } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { Button, Table, Input, Select, Modal, Form } from "antd";
+
+const { Option } = Select;
 
 const CategoriesView = () => {
   const [categories, setCategories] = useState([]);
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [filters, setFilters] = useState({
+    categoryName: "",
+    amount: null,
+    type: null,
+  });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     loadCategories();
@@ -14,115 +23,269 @@ const CategoriesView = () => {
 
   const loadCategories = async () => {
     try {
-      const result = await axios.get("http://localhost:8080/Admin/categories", {
-        withCredentials: true,
-      });
-      if (result.status === 200 && Array.isArray(result.data)) {
-        setCategories(result.data);
-      } else {
-        setError("Failed to load categories or invalid format");
-        console.error("Failed to load categories or invalid format", result);
-      }
+      const response = await axios.get(
+        "http://localhost:8080/Admin/categories"
+      );
+      setCategories(response.data);
+      setFilteredCategories(response.data);
     } catch (error) {
-      setError("Error fetching categories");
       console.error("Error fetching categories:", error);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8080/Admin/delete/${id}`
-      );
-
-      if (response.status === 204) {
-        // 204 No Content
-        loadCategories();
-        alert("Delete successfully。");
-      } else if (response.status === 409) {
-        // 409 Conflict
-        alert(response.data);
-      } else if (response.status === 401) {
-        // 401 Unauthorized
-        alert("Unauthorized access, please log in first。");
-      }
+      await axios.delete(`http://localhost:8080/Admin/delete/${id}`);
+      loadCategories();
+      alert("Delete successfully");
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        alert(`${error.response.data}`);
-      } else if (error.response) {
-        alert(`${error.response.data}`);
-      } else {
-        console.error("Delete failed:", error);
-        alert("Delete failed");
-      }
+      console.error("Delete failed:", error);
+      alert("This category already has an expense and cannot be deleted.");
     }
   };
 
-  return (
-    <section>
-      {error && <div className="error">{error}</div>}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>All Budgets</h2>
-        <Link to="/admin/add-category" className="btn btn-primary">
-          <FaPlus /> New Budget
-        </Link>
-      </div>
-      <table className="table table-bordered table-hover shadow">
-        <thead>
-          <tr className="text-center">
-            <th>ID</th>
-            <th>Category</th>
-            <th>Amount</th>
-            <th>Type</th>
-            <th>Defined by</th>
-            <th>Expenses</th>
-            <th colSpan="2">Actions</th>
-          </tr>
-        </thead>
+  const handleEdit = (category) => {
+    setCurrentCategory(category);
+    form.setFieldsValue({
+      name: category.name,
+      budget: category.budget,
+      type: category.type === 0 ? "System Defined" : "User Defined",
+    });
+    setModalOpen(true);
+  };
 
-        <tbody className="text-center">
-          {categories.map((category, index) => (
-            <tr key={category.id}>
-              <th scope="row" style={{ verticalAlign: "middle" }}>
-                {index + 1}
-              </th>
-              <td style={{ verticalAlign: "middle" }}>{category.name}</td>
-              <td style={{ verticalAlign: "middle" }}>{category.budget}</td>
-              <td style={{ verticalAlign: "middle" }}>
-                {category.type === 0 ? "System Defined" : "User Defined"}
-              </td>
-              <td style={{ verticalAlign: "middle" }}>
-                {category.user.username}
-              </td>
-              <td className="mx-2" style={{ verticalAlign: "middle" }}>
-                <Link
-                  to={`/admin/category-transaction/${category.id}`}
-                  className="btn btn-info"
-                >
-                  <FaEye />
-                </Link>
-              </td>
-              <td className="mx-2" style={{ verticalAlign: "middle" }}>
-                <Link
-                  to={`/admin/edit-category/${category.id}`}
-                  className="btn btn-warning"
-                >
-                  <FaEdit />
-                </Link>
-              </td>
-              <td className="mx-2" style={{ verticalAlign: "middle" }}>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(category.id)}
-                >
-                  <FaTrashAlt />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
+  const handleFilterChange = (type, value) => {
+    const newFilters = {
+      ...filters,
+      [type]: value === undefined ? null : value,
+    };
+    setFilters(newFilters);
+    filterCategories(newFilters);
+  };
+
+  const filterCategories = (newFilters) => {
+    let result = categories;
+
+    if (newFilters.categoryName) {
+      result = result.filter((category) =>
+        category.name
+          .toLowerCase()
+          .includes(newFilters.categoryName.toLowerCase())
+      );
+    }
+
+    if (newFilters.amount !== null) {
+      if (newFilters.amount === "low") {
+        result = result.filter((category) => category.budget < 500);
+      } else if (newFilters.amount === "medium") {
+        result = result.filter(
+          (category) => category.budget >= 500 && category.budget <= 1000
+        );
+      } else if (newFilters.amount === "high") {
+        result = result.filter((category) => category.budget > 1000);
+      }
+    }
+
+    if (newFilters.type !== null) {
+      result = result.filter((category) => category.type === newFilters.type);
+    }
+
+    setFilteredCategories(result);
+  };
+
+  const handleModalOk = () => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        console.log("Form values: ", values);
+
+        const { name, budget, type } = values;
+
+        try {
+          if (currentCategory) {
+            await axios.put(
+              `http://localhost:8080/Admin/update/${currentCategory.id}`,
+              {
+                name,
+                budget: parseFloat(budget),
+                type: type === "System Defined" ? 0 : 1,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } else {
+            await axios.post(
+              "http://localhost:8080/Admin/add/1",
+              {
+                name,
+                budget: parseFloat(budget),
+                type: type === "System Defined" ? 0 : 1,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          }
+
+          loadCategories();
+        } catch (error) {
+          if (error.response && error.response.data) {
+            console.error("Error:", error.response.data.message);
+            alert(`Error: ${error.response.data.message}`);
+          } else {
+            console.error("Request failed with status code", error.message);
+          }
+        }
+
+        setModalOpen(false);
+      })
+      .catch((errorInfo) => {
+        console.log("Validation failed:", errorInfo);
+      });
+  };
+
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      width: 50,
+    },
+    {
+      title: "Category",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Amount",
+      dataIndex: "budget",
+      key: "budget",
+    },
+    {
+      title: "Type",
+      key: "type",
+      render: (text, record) =>
+        record.type === 0 ? "System Defined" : "User Defined",
+    },
+    {
+      title: "Defined by",
+      dataIndex: ["user", "username"],
+      key: "user.username",
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (text, record) => (
+        <span>
+          <Button
+            className="btn btn-warning"
+            icon={<FaEdit />}
+            onClick={() => handleEdit(record)}
+            style={{ marginRight: 8 }}
+          />
+          <Button
+            className="btn btn-danger"
+            icon={<FaTrashAlt />}
+            onClick={() => handleDelete(record.id)}
+          />
+        </span>
+      ),
+    },
+  ];
+
+  return (
+    <div className="content">
+      <h2>Category Management</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginBottom: "16px",
+        }}
+      >
+        <Input
+          placeholder="Search Category Name"
+          onChange={(e) => handleFilterChange("categoryName", e.target.value)}
+          style={{ width: 200 }}
+          allowClear
+        />
+        <Select
+          onChange={(value) => handleFilterChange("amount", value)}
+          placeholder="Select Amount"
+          style={{ width: 150 }}
+          allowClear
+        >
+          <Option value={null}>All Amounts</Option>
+          <Option value="low">Less than 500</Option>
+          <Option value="medium">500 - 1000</Option>
+          <Option value="high">More than 1000</Option>
+        </Select>
+        <Select
+          onChange={(value) => handleFilterChange("type", value)}
+          placeholder="Select Type"
+          style={{ width: 150 }}
+          allowClear
+        >
+          <Option value={null}>All Types</Option>
+          <Option value={0}>System Defined</Option>
+          <Option value={1}>User Defined</Option>
+        </Select>
+        <Button
+          type="primary"
+          onClick={() => {
+            setModalOpen(true);
+            setCurrentCategory(null);
+            form.resetFields();
+          }}
+          style={{ marginLeft: "auto" }}
+        >
+          Add Category
+        </Button>
+      </div>
+      <Table dataSource={filteredCategories} columns={columns} rowKey="id" />
+
+      <Modal
+        title={currentCategory ? "Edit Category" : "Add Category"}
+        visible={modalOpen}
+        onCancel={() => setModalOpen(false)}
+        onOk={handleModalOk}
+      >
+        <Form layout="vertical" form={form}>
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please input the name!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Budget"
+            name="budget"
+            rules={[{ required: true, message: "Please input the budget!" }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Category Type"
+            name="type"
+            rules={[
+              { required: true, message: "Please select a category type!" },
+            ]}
+          >
+            <Select>
+              <Option value="System Defined">System Defined</Option>
+              <Option value="User Defined">User Defined</Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
   );
 };
 

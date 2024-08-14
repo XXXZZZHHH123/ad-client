@@ -43,12 +43,10 @@ const AppContent = () => {
       {!hideNavBar && location.pathname.startsWith("/user") && <NavBar />}
       <div className="site-layout-content" style={{ margin: "16px 0" }}>
         <Routes>
-          {/* Common Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Admin Routes */}
           <Route
             path="/admin/view-categories_all"
             element={<PrivateRoute element={<View_All />} />}
@@ -95,7 +93,6 @@ const AppContent = () => {
             element={<PrivateRoute element={<User_Transaction />} />}
           />
 
-          {/* User Routes */}
           <Route
             path="/user/dashboard"
             element={<PrivateRoute element={<Dashboard />} />}
@@ -110,7 +107,6 @@ const AppContent = () => {
           />
           <Route path="/user/logout" element={<div>Logout</div>} />
 
-          {/* Default Route */}
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>
