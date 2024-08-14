@@ -46,10 +46,10 @@ const User_Transaction = () => {
         <tbody className="text-center">
           {transactions.map((transaction, index) => (
             <tr key={transaction.id}>
-              <th scope="row" key={index} style={{ verticalAlign: "middle" }}>
-                {index + 1}
-              </th>
-              <td style={{ verticalAlign: "middle" }}>
+              <td style={{verticalAlign: "middle"}}>
+                {transaction.id}
+              </td>
+              <td style={{verticalAlign: "middle"}}>
                 {transaction.category.name}
               </td>
               <td style={{ verticalAlign: "middle" }}>

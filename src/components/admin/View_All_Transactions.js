@@ -54,7 +54,7 @@ const View_Transactions = () => {
   const loadTransactions = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/Admin/transactions`
+          `http://localhost:8080/Admin/transactions`
       );
       const data = response.data.map((transaction) => ({
         ...transaction,
@@ -69,10 +69,14 @@ const View_Transactions = () => {
 
   const loadCategories = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/Admin/categories`
-      );
-      setCategories(response.data);
+      const [responseUser, responseSystem] = await Promise.all([
+        axios.get("http://localhost:8080/Admin/categories_user/1"),
+        axios.get("http://localhost:8080/Admin/categories/1"),
+      ]);
+
+      // 将两个响应的数据合并
+      const combinedData = [...responseUser.data, ...responseSystem.data];
+      setCategories(combinedData);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -108,16 +112,16 @@ const View_Transactions = () => {
 
       if (startDate && endDate) {
         result = result.filter((transaction) =>
-          moment(transaction.created_at).isBetween(
-            startDate,
-            endDate,
-            null,
-            "[]"
-          )
+            moment(transaction.created_at).isBetween(
+                startDate,
+                endDate,
+                null,
+                "[]"
+            )
         );
       } else if (startDate && !endDate) {
         result = result.filter((transaction) =>
-          moment(transaction.created_at).isAfter(startDate)
+            moment(transaction.created_at).isAfter(startDate)
         );
       }
     }
@@ -126,13 +130,13 @@ const View_Transactions = () => {
       startDate = newFilters.customRange[0].format("YYYY-MM-DD");
       endDate = newFilters.customRange[1].format("YYYY-MM-DD");
       result = result.filter((transaction) =>
-        moment(transaction.created_at).isBetween(startDate, endDate, null, "[]")
+          moment(transaction.created_at).isBetween(startDate, endDate, null, "[]")
       );
     }
 
     if (newFilters.category) {
       result = result.filter(
-        (transaction) => transaction.category.name === newFilters.category
+          (transaction) => transaction.category.name === newFilters.category
       );
     }
 
@@ -148,9 +152,9 @@ const View_Transactions = () => {
 
     if (newFilters.username) {
       result = result.filter((transaction) =>
-        transaction.user.username
-          .toLowerCase()
-          .includes(newFilters.username.toLowerCase())
+          transaction.user.username
+              .toLowerCase()
+              .includes(newFilters.username.toLowerCase())
       );
     }
 
@@ -161,7 +165,7 @@ const View_Transactions = () => {
     try {
       const { categoryName, orderdate, ...otherValues } = values;
       const selectedCategory = categories.find(
-        (category) => category.name === categoryName
+          (category) => category.name === categoryName
       );
 
       if (!selectedCategory) {
@@ -178,14 +182,14 @@ const View_Transactions = () => {
       let response;
       if (currentTransaction) {
         response = await axios.put(
-          `http://localhost:8080/User/transaction/update/${currentTransaction.id}`,
-          transactionData
+            `http://localhost:8080/User/transaction/update/${currentTransaction.id}`,
+            transactionData
         );
         message.success("Transaction updated successfully");
         setTransactions((prevTransactions) =>
-          prevTransactions.map((tx) =>
-            tx.id === currentTransaction.id ? response.data : tx
-          )
+            prevTransactions.map((tx) =>
+                tx.id === currentTransaction.id ? response.data : tx
+            )
         );
       }
 
@@ -261,8 +265,8 @@ const View_Transactions = () => {
       key: "orderdate",
       render: (text) => {
         const formattedDate = moment(text).isValid()
-          ? moment(text).format("DD-MM-YYYY")
-          : "/";
+            ? moment(text).format("DD-MM-YYYY")
+            : "/";
         return formattedDate;
       },
     },
@@ -272,8 +276,8 @@ const View_Transactions = () => {
       key: "updateTime",
       render: (text) => {
         const formattedDate = moment(text).isValid()
-          ? moment(text).format("DD-MM-YYYY")
-          : "/";
+            ? moment(text).format("DD-MM-YYYY")
+            : "/";
         return formattedDate;
       },
     },
@@ -285,151 +289,151 @@ const View_Transactions = () => {
   ];
 
   return (
-    <div className="content">
-      <h2>Expenses Management</h2>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          marginBottom: "16px",
-        }}
-      >
-        <Button
-          onClick={() => handleFilterClick("period", "week")}
-          type={activeFilter === "week" ? "primary" : "default"}
+      <div className="content">
+        <h2>Expenses Management</h2>
+        <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              marginBottom: "16px",
+            }}
         >
-          Last week
-        </Button>
-        <Button
-          onClick={() => handleFilterClick("period", "month")}
-          style={{ marginLeft: "8px" }}
-          type={activeFilter === "month" ? "primary" : "default"}
-        >
-          Last month
-        </Button>
-        <Button
-          onClick={() => handleFilterClick("period", "year")}
-          style={{ marginLeft: "8px" }}
-          type={activeFilter === "year" ? "primary" : "default"}
-        >
-          Last year
-        </Button>
-        <Button
-          onClick={() => handleFilterClick("period", "future")}
-          style={{ marginLeft: "8px" }}
-          type={activeFilter === "future" ? "primary" : "default"}
-        >
-          Future
-        </Button>
-        <RangePicker
-          onChange={handleDateRangeChange}
-          style={{ marginLeft: "8px" }}
-        />
-        <Search
-          placeholder="Search by Username"
-          onSearch={(value) => handleFilterClick("username", value)}
-          style={{ width: 200, marginLeft: "8px" }}
-        />
-        <Select
-          onChange={(value) => handleFilterClick("category", value)}
-          value={filters.category}
-          placeholder="Select Category"
-          style={{ marginLeft: "8px" }}
-        >
-          <Option value="">All Categories</Option>
-          {categories.map((category) => (
-            <Option key={category.id} value={category.name}>
-              {category.name}
-            </Option>
-          ))}
-        </Select>
-
-        <Select
-          onChange={(value) => handleFilterClick("amount", value)}
-          value={filters.amount}
-          placeholder="Select Amount"
-          style={{ marginLeft: "8px" }}
-        >
-          <Option value={null}>All Amounts</Option>
-          <Option value="low">0~50SGD</Option>
-          <Option value="medium">50~200SGD</Option>
-          <Option value="high">200SGD</Option>
-        </Select>
-
-        <Button
-          type="primary"
-          style={{
-            marginLeft: "auto",
-            backgroundColor: "#ff0000",
-            border: "none",
-          }}
-        >
-          <CSVLink
-            data={transactions}
-            headers={headers}
-            filename={"transactions.csv"}
-            className="csv-link"
-            target="_blank"
-            style={{ textDecoration: "none", color: "white" }}
+          <Button
+              onClick={() => handleFilterClick("period", "week")}
+              type={activeFilter === "week" ? "primary" : "default"}
           >
-            Export CSV
-          </CSVLink>
-        </Button>
-      </div>
-      <Table dataSource={filteredTransactions} columns={columns} rowKey="id" />
-
-      <Modal
-        title={currentTransaction ? "Edit Expense" : "Add Expense"}
-        open={modalOpen}
-        onCancel={() => {
-          setModalOpen(false);
-          setCurrentTransaction(null);
-          form.resetFields();
-        }}
-        onOk={() => form.submit()}
-        okText="Save"
-      >
-        <Form layout="vertical" form={form} onFinish={handleSubmit}>
-          <Form.Item
-            label="Category"
-            name="categoryName"
-            rules={[{ required: true, message: "Please select a category!" }]}
+            Last week
+          </Button>
+          <Button
+              onClick={() => handleFilterClick("period", "month")}
+              style={{ marginLeft: "8px" }}
+              type={activeFilter === "month" ? "primary" : "default"}
           >
-            <Select>
-              {categories.map((category) => (
+            Last month
+          </Button>
+          <Button
+              onClick={() => handleFilterClick("period", "year")}
+              style={{ marginLeft: "8px" }}
+              type={activeFilter === "year" ? "primary" : "default"}
+          >
+            Last year
+          </Button>
+          <Button
+              onClick={() => handleFilterClick("period", "future")}
+              style={{ marginLeft: "8px" }}
+              type={activeFilter === "future" ? "primary" : "default"}
+          >
+            Future
+          </Button>
+          <RangePicker
+              onChange={handleDateRangeChange}
+              style={{ marginLeft: "8px" }}
+          />
+          <Search
+              placeholder="Search by Username"
+              onSearch={(value) => handleFilterClick("username", value)}
+              style={{ width: 200, marginLeft: "8px" }}
+          />
+          <Select
+              onChange={(value) => handleFilterClick("category", value)}
+              value={filters.category}
+              placeholder="Select Category"
+              style={{ marginLeft: "8px" }}
+          >
+            <Option value="">All Categories</Option>
+            {categories.map((category) => (
                 <Option key={category.id} value={category.name}>
                   {category.name}
                 </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Amount"
-            name="amount"
-            rules={[{ required: true, message: "Please enter the amount!" }]}
+            ))}
+          </Select>
+
+          <Select
+              onChange={(value) => handleFilterClick("amount", value)}
+              value={filters.amount}
+              placeholder="Select Amount"
+              style={{ marginLeft: "8px" }}
           >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            label="Order Date"
-            name="orderdate"
-            rules={[
-              { required: true, message: "Please enter the order date!" },
-            ]}
+            <Option value={null}>All Amounts</Option>
+            <Option value="low">0~50SGD</Option>
+            <Option value="medium">50~200SGD</Option>
+            <Option value="high">>200SGD</Option>
+          </Select>
+
+          <Button
+              type="primary"
+              style={{
+                marginLeft: "auto",
+                backgroundColor: "#ff0000",
+                border: "none",
+              }}
           >
-            <Input type="date" />
-          </Form.Item>
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Please enter a description!" }]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+            <CSVLink
+                data={transactions}
+                headers={headers}
+                filename={"transactions.csv"}
+                className="csv-link"
+                target="_blank"
+                style={{ textDecoration: "none", color: "white" }}
+            >
+              Export CSV
+            </CSVLink>
+          </Button>
+        </div>
+        <Table dataSource={filteredTransactions} columns={columns} rowKey="id" />
+
+        <Modal
+            title={currentTransaction ? "Edit Expense" : "Add Expense"}
+            open={modalOpen}
+            onCancel={() => {
+              setModalOpen(false);
+              setCurrentTransaction(null);
+              form.resetFields();
+            }}
+            onOk={() => form.submit()}
+            okText="Save"
+        >
+          <Form layout="vertical" form={form} onFinish={handleSubmit}>
+            <Form.Item
+                label="Category"
+                name="categoryName"
+                rules={[{ required: true, message: "Please select a category!" }]}
+            >
+              <Select>
+                {categories.map((category) => (
+                    <Option key={category.id} value={category.name}>
+                      {category.name}
+                    </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+                label="Amount"
+                name="amount"
+                rules={[{ required: true, message: "Please enter the amount!" }]}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+                label="Order Date"
+                name="orderdate"
+                rules={[
+                  { required: true, message: "Please enter the order date!" },
+                ]}
+            >
+              <Input type="date" />
+            </Form.Item>
+            <Form.Item
+                label="Description"
+                name="description"
+                rules={[{ required: true, message: "Please enter a description!" }]}
+            >
+              <Input />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
   );
 };
 

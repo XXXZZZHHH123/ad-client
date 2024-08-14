@@ -26,11 +26,17 @@ const CategoriesView = () => {
 
   const loadCategories = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/Admin/categories"
-      );
-      setCategories(response.data);
-      setFilteredCategories(response.data);
+      // 同时发出两个请求
+      const [responseUser, responseSystem] = await Promise.all([
+        axios.get("http://localhost:8080/Admin/categories_user/1"),
+        axios.get("http://localhost:8080/Admin/categories/1"),
+      ]);
+
+      // 将两个响应的数据合并
+      const combinedData = [...responseUser.data, ...responseSystem.data];
+
+      setCategories(combinedData);
+      setFilteredCategories(combinedData);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -255,7 +261,7 @@ const CategoriesView = () => {
           }}
           style={{
             marginLeft: "auto",
-            backgroundColor: "#cc0000",
+            backgroundColor: "#ff0000",
           }}
         >
           Add Category

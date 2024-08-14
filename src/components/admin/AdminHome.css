@@ -5,8 +5,9 @@
   background-color: rgb(235, 238, 247);
   padding: 20px;
   border-radius: 20px;
+  min-height: 100vh; /* 设置最小高度为视口高度 */
+  box-sizing: border-box; /* 确保 padding 不会增加实际高度 */
 }
-
 .chart-wrapper {
   width: 48%;
   display: flex;
