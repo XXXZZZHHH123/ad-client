@@ -21,7 +21,6 @@ const { RangePicker } = DatePicker;
 const View_Transactions = () => {
   const { id } = useParams();
   const [transactions, setTransactions] = useState([]);
-
   const [categories, setCategories] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -33,6 +32,7 @@ const View_Transactions = () => {
     category: "",
     amount: null,
   });
+
   const headers = [
     { label: "Transaction ID", key: "id" },
     { label: "Username", key: "user.username" },
@@ -80,7 +80,6 @@ const View_Transactions = () => {
 
   const filterTransactions = (newFilters) => {
     let result = transactions;
-
     const now = moment();
     let startDate, endDate;
 
@@ -357,20 +356,26 @@ const View_Transactions = () => {
           <Option value="medium">50~200SGD</Option>
           <Option value="high">200SGD</Option>
         </Select>
-        <CSVLink
-          data={transactions}
-          headers={headers}
-          filename={"transactions.csv"}
-          className="btn btn-primary"
-          target="_blank"
+
+        <Button
+          type="primary"
           style={{
             marginLeft: "auto",
-            backgroundColor: "#cc0000",
+            backgroundColor: "#ff0000",
             border: "none",
           }}
         >
-          Export CSV
-        </CSVLink>
+          <CSVLink
+            data={transactions}
+            headers={headers}
+            filename={"transactions.csv"}
+            className="csv-link"
+            target="_blank"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Export CSV
+          </CSVLink>
+        </Button>
       </div>
       <Table dataSource={filteredTransactions} columns={columns} rowKey="id" />
 

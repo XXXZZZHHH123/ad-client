@@ -21,7 +21,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white mb-5 w-100 custom-navbar-red">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white mb-10 w-100 custom-navbar-red">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/admin"}>
           SmartBook

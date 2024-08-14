@@ -255,7 +255,7 @@ const CategoriesView = () => {
           }}
           style={{
             marginLeft: "auto",
-            backgroundColor: "#cc0000", // 使用驼峰式命名法
+            backgroundColor: "#cc0000",
           }}
         >
           Add Category
