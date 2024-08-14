@@ -13,6 +13,7 @@ import axios from "axios";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import moment from "moment";
 import { useUser } from "../../UserContext";
+import {CSVLink} from "react-csv";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -30,6 +31,14 @@ const Transaction = () => {
     category: "",
     amount: null,
   });
+
+  const headers = [
+    { label: "Category", key: "category.name" },
+    { label: "Amount(SGD)", key: "amount" },
+    { label: "Order Date", key: "created_at" },
+    { label: "Update Time", key: "updated_at" },
+    { label: "Description", key: "description" },
+  ];
   const [activeFilter, setActiveFilter] = useState("");
   const { userId } = useUser();
 
@@ -360,16 +369,35 @@ const Transaction = () => {
           <Option value="medium">50~200SGD</Option>
           <Option value="high">200SGD</Option>
         </Select>
+
         <Button
           type="primary"
           onClick={() => {
             setModalOpen(true);
             setCurrentTransaction(null);
           }}
-          style={{ marginLeft: "auto" }}
+          style={{ marginLeft: "auto" ,
+            backgroundColor: "#ff0000", // 白色背景
+            color: "#ffffff", // 红色字体
+            border: "2px solid #ff0000", // 红色边框
+          }}
         >
           Add Expense
         </Button>
+        <CSVLink
+            data={transactions}
+            headers={headers}
+            filename={"transactions.csv"}
+            className="btn btn-primary"
+            target="_blank"
+            style={{
+              marginLeft: "auto",
+              backgroundColor: "#cc0000",
+              border: "none",
+            }}
+        >
+          Export CSV
+        </CSVLink>
       </div>
       <Table dataSource={filteredTransactions} columns={columns} rowKey="id" />
 

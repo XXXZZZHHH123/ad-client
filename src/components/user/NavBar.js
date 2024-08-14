@@ -19,7 +19,7 @@ const NavBar = () => {
     }
   };
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5 w-100 custom-navbar-red">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/user/dashboard"}>
           SmartBook
@@ -48,7 +48,15 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item ms-auto">
-              <button className="btn btn-danger" onClick={handleLogout}>
+              <button
+                  className="btn"
+                  style={{
+                    backgroundColor: "#ffffff", // 白色背景
+                    color: "#ff0000", // 红色字体
+                    border: "2px solid #ff0000", // 红色边框
+                  }}
+                  onClick={handleLogout}
+              >
                 Logout
               </button>
             </li>
