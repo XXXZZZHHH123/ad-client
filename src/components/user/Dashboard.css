@@ -131,6 +131,7 @@
     text-align: center;
     margin: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fde8e8;
 }
 
 .percentage-change {
@@ -242,4 +243,26 @@
 .chart-container-left-top{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.custom-navbar-red {
+    background-color: #fb2a2a !important; /* 设置背景颜色为红色 */
+    color: #ffffff !important; /* 设置字体颜色为白色（根据需求） */
+}
+
+.custom-navbar-red .navbar-brand,
+.custom-navbar-red .nav-link {
+    color: #ffffff !important; /* 设置链接和品牌名称的颜色 */
+}
+
+.custom-navbar-red .dropdown-menu {
+    background-color: #ff0000; /* 设置下拉菜单的背景颜色 */
+}
+
+.custom-navbar-red .dropdown-item {
+    color: #ffffff !important; /* 设置下拉菜单项的颜色 */
+}
+
+.custom-navbar-red .dropdown-item:hover {
+    background-color: #cc0000; /* 设置下拉菜单项的悬停背景颜色 */
 }

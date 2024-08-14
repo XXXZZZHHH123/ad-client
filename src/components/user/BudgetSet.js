@@ -147,11 +147,13 @@ const BudgetSet = () => {
             onClick={() => handleEdit(record)}
             style={{ marginRight: 8 }}
           />
+          {record.type !== 0 && (
           <Button
             type="danger"
             icon={<FaTrashAlt />}
             onClick={() => handleDelete(record.id)}
           />
+          )}
         </span>
       ),
     },
@@ -227,6 +229,11 @@ const BudgetSet = () => {
     <div className="content">
       <h2>Budget Planner(Monthly)</h2>
       <Button
+          style={{
+            backgroundColor: "#ff0000", // 白色背景
+            color: "#ffffff", // 红色字体
+            border: "2px solid #ff0000", // 红色边框
+          }}
         type="primary"
         onClick={() => {
           setModalOpen(true);
@@ -269,7 +276,7 @@ const BudgetSet = () => {
       </Modal>
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <PieChart width={410} height={410}>
+        <PieChart width={410} height={510}>
           <Pie
             data={categories}
             dataKey="budget"
