@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaTrashAlt, FaEdit, FaEye } from "react-icons/fa";
 import { Button, Table, Input, Select, Modal, Form } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -16,6 +17,8 @@ const CategoriesView = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
   const [form] = Form.useForm();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCategories();
@@ -183,6 +186,12 @@ const CategoriesView = () => {
       render: (text, record) => (
         <span>
           <Button
+            className="btn btn-primary"
+            icon={<FaEye />}
+            onClick={() => navigate(`/admin/category-transaction/${record.id}`)}
+            style={{ marginRight: 8 }}
+          ></Button>
+          <Button
             className="btn btn-warning"
             icon={<FaEdit />}
             onClick={() => handleEdit(record)}
@@ -200,7 +209,7 @@ const CategoriesView = () => {
 
   return (
     <div className="content">
-      <h2>Category Management</h2>
+      <h2>Budget Management</h2>
       <div
         style={{
           display: "flex",
@@ -243,7 +252,10 @@ const CategoriesView = () => {
             setCurrentCategory(null);
             form.resetFields();
           }}
-          style={{ marginLeft: "auto" }}
+          style={{
+            marginLeft: "auto",
+            backgroundColor: "#cc0000", // 使用驼峰式命名法
+          }}
         >
           Add Category
         </Button>

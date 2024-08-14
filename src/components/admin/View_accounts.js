@@ -64,6 +64,8 @@ const View_accounts = () => {
 
   return (
     <section>
+      <h2>Accounts Management</h2>
+      <p></p>
       <table className="table table-bordered table-hover shadow">
         <thead>
           <tr className="text-center">

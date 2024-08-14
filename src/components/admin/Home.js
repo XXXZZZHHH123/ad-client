@@ -21,7 +21,6 @@ const Home = () => {
   const [userCategories, setUserCategories] = useState([]);
   const [averageAmounts, setAverageAmounts] = useState([]);
   const [topCategories, setTopCategories] = useState([]);
-  const SystemcategoryType = 0;
   const UsercategoryType = 1;
   const navigate = useNavigate();
 

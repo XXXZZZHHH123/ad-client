@@ -287,7 +287,7 @@ const View_Transactions = () => {
 
   return (
     <div className="content">
-      <h2>All Expenses</h2>
+      <h2>Expenses Management</h2>
       <div
         style={{
           display: "flex",
@@ -363,7 +363,11 @@ const View_Transactions = () => {
           filename={"transactions.csv"}
           className="btn btn-primary"
           target="_blank"
-          style={{ marginLeft: "auto" }}
+          style={{
+            marginLeft: "auto",
+            backgroundColor: "#cc0000",
+            border: "none",
+          }}
         >
           Export CSV
         </CSVLink>
