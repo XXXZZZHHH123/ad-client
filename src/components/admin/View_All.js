@@ -26,17 +26,24 @@ const CategoriesView = () => {
 
   const loadCategories = async () => {
     try {
-      // 同时发出两个请求
+      // 在加载新数据之前，先清空旧的数据状态
+      setCategories([]);
+      setFilteredCategories([]);
+
       const [responseUser, responseSystem] = await Promise.all([
         axios.get("http://localhost:8080/Admin/categories_user/1"),
         axios.get("http://localhost:8080/Admin/categories/1"),
       ]);
 
-      // 将两个响应的数据合并
       const combinedData = [...responseUser.data, ...responseSystem.data];
 
-      setCategories(combinedData);
-      setFilteredCategories(combinedData);
+      // 确保没有重复的ID
+      const uniqueData = combinedData.filter(
+        (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      );
+
+      setCategories(uniqueData);
+      setFilteredCategories(uniqueData);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -73,7 +80,7 @@ const CategoriesView = () => {
   };
 
   const filterCategories = (newFilters) => {
-    let result = categories;
+    let result = [...categories];
 
     if (newFilters.categoryName) {
       result = result.filter((category) =>
@@ -106,8 +113,6 @@ const CategoriesView = () => {
     form
       .validateFields()
       .then(async (values) => {
-        console.log("Form values: ", values);
-
         const { name, budget, type } = values;
 
         try {
@@ -196,7 +201,7 @@ const CategoriesView = () => {
             icon={<FaEye />}
             onClick={() => navigate(`/admin/category-transaction/${record.id}`)}
             style={{ marginRight: 8 }}
-          ></Button>
+          />
           <Button
             className="btn btn-warning"
             icon={<FaEdit />}

@@ -273,7 +273,7 @@ const Home = () => {
         </div>
 
         <div className="chart-container">
-          <h3>Top Categories By Usage</h3>
+          <h3>Top Budgets By Usage</h3>
           <Button
             type="primary"
             onClick={handleViewTransaction}
@@ -291,9 +291,9 @@ const Home = () => {
           </BarChart>
           <div className="description">
             <p>
-              The bar chart above shows the top categories by transactions
-              count, it only select top five categories which can be add to
-              System defined budgets
+              The bar chart above shows the top budgets by transactions count,
+              it only select top five budgets which can be add to System defined
+              budgets
             </p>
             <p>
               If you want to view transations, please click the "View
