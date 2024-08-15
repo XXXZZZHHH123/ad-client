@@ -255,7 +255,7 @@ const CategoriesView = () => {
           }}
           style={{
             marginLeft: "auto",
-            backgroundColor: "#cc0000",
+            backgroundColor: "#ff0000",
           }}
         >
           Add Category
