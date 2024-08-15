@@ -154,7 +154,7 @@ const Home = () => {
     return {
       name: category.name,
       amount: category.budget,
-      averageAmount: averageAmounts[category.name] || 0,
+      averageAmount: (averageAmounts[category.name] || 0).toFixed(1),
     };
   });
 

@@ -74,13 +74,15 @@ const BudgetSet = () => {
         `http://localhost:8080/User/budget/update/${currentCategory.id}`,
         {
           budget: values.amount,
+          name: currentCategory.name,
+          type: currentCategory.type,
         }
       );
       message.success("Category updated successfully");
       setCategories((prevCategories) =>
         prevCategories.map((cat) =>
           cat.id === currentCategory.id
-            ? { ...cat, budget: values.amount }
+            ? { ...cat, budget: values.amount, name: currentCategory.name, type: currentCategory.type }
             : cat
         )
       );
